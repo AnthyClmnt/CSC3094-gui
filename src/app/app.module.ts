@@ -16,10 +16,11 @@ import {DashboardComponent} from "./dashboard/dashboard.component";
 import {UserService} from "./services/user-service";
 import {NavBarComponent} from "./shared/nav-bar/nav-bar.component";
 import {NgIconsModule} from "@ng-icons/core";
-import {heroBugAnt, heroChartBar, heroShieldExclamation, heroSquares2x2, heroCog6Tooth, heroArrowLeftOnRectangle, heroArrowRight, heroCodeBracket} from '@ng-icons/heroicons/outline'
+import {heroBugAnt, heroChartBar, heroShieldExclamation, heroSquares2x2, heroCog6Tooth, heroArrowLeftOnRectangle, heroArrowRight, heroCodeBracket, heroMagnifyingGlass, heroFaceFrown} from '@ng-icons/heroicons/outline'
 import {CodeFileChangesComponent} from "./codeFileChanges/codeFileChanges.component";
 import {RepoCommitHistoryComponent} from "./repo-commit-history/repo-commit-history.component";
 import {AppBarComponent} from "./shared/app-bar/app-bar.component";
+import {SearchComponent} from "./shared/search-component/search.component";
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import {AppBarComponent} from "./shared/app-bar/app-bar.component";
     CodeFileChangesComponent,
     RepoCommitHistoryComponent,
     AppBarComponent,
+    SearchComponent,
   ],
   imports: [
     BrowserModule,
@@ -41,7 +43,7 @@ import {AppBarComponent} from "./shared/app-bar/app-bar.component";
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    NgIconsModule.withIcons({ heroCog6Tooth, heroBugAnt, heroChartBar, heroShieldExclamation, heroSquares2x2, heroArrowLeftOnRectangle, heroArrowRight, heroCodeBracket }),
+    NgIconsModule.withIcons({ heroCog6Tooth, heroBugAnt, heroChartBar, heroShieldExclamation, heroSquares2x2, heroArrowLeftOnRectangle, heroArrowRight, heroCodeBracket, heroMagnifyingGlass, heroFaceFrown }),
   ],
   providers: [AuthService, AuthGuard, UserService],
   bootstrap: [AppComponent]
