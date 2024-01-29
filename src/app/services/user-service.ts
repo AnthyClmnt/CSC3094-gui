@@ -2,7 +2,7 @@ import {Injectable} from "@angular/core";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable, take} from "rxjs";
 import {AuthService} from "./auth-service";
-import {GitHubRepo, RepoCommit, User} from "../shared/openapi";
+import {CommitDetails, GitHubRepo, RepoCommit, User} from "../shared/openapi";
 
 @Injectable({
   providedIn: 'root',
@@ -42,5 +42,14 @@ export class UserService {
     });
 
     return this.http.get<RepoCommit[]>(`http://localhost:8000/github/commits?repoOwner=${params.repoOwner}&repoName=${params.repoName}`, {headers})
+  }
+
+  public getCommitDetails(params: {repoOwner : string, repoName : string, sha: string}): Observable<CommitDetails> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.authService.getToken()}`,
+    });
+
+    return this.http.get<CommitDetails>(`http://localhost:8000/github/commit/changes?repoOwner=${params.repoOwner}&repoName=${params.repoName}&sha=${params.sha}`, {headers})
   }
 }

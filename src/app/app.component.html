@@ -1,7 +1,7 @@
 <div class="container" *ngIf="(isLoggedIn$ | async) !== null; else loadingTemplate">
   <app-bar *ngIf="authService.getToken() !== null"></app-bar>
   <nav-bar *ngIf="authService.getToken() !== null"></nav-bar>
-  <div class="main-content">
+  <div [class.outlet-height]="authService.getToken() !== null" class="main-content">
     <router-outlet></router-outlet>
   </div>
 </div>

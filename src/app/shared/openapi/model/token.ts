@@ -12,6 +12,7 @@
 
 
 export interface Token { 
-    authToken: string;
+    accessToken: string;
+    refreshToken: string;
 }
 

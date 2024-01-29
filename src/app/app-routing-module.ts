@@ -15,7 +15,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'commit-history/:repoOwner/:repoName', component: RepoCommitHistoryComponent, canActivate: [AuthGuard] },
-  { path: 'code-changes', component: CodeFileChangesComponent, canActivate: [AuthGuard] }
+  { path: 'commit-history/:repoOwner/:repoName/:sha', component: CodeFileChangesComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({

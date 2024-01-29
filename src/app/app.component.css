@@ -9,8 +9,11 @@
 
 .main-content {
   grid-area: content;
-  height: calc(100vh - 55px);
   overflow-y: auto;
+}
+
+.outlet-height {
+  height: calc(100vh - 55px);
 }
 
 nav-bar {

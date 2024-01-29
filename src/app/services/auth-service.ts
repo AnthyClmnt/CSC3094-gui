@@ -11,7 +11,8 @@ import {Token, UserLogin, UserRegistration} from "../shared/openapi";
 })
 export class AuthService {
   private apiUrl = 'http://localhost:8000';
-  private tokenKey = 'authToken';
+  private accessTokenKey = 'accessToken';
+  private refreshTokenKey = 'refreshToken';
 
   constructor(private http: HttpClient) {}
 
@@ -21,7 +22,8 @@ export class AuthService {
     return this.http.post<Token>(`${this.apiUrl}/auth/login`, credentials).pipe(
       tap((response) => {
         // Store the token in localStorage or a secure storage mechanism
-        localStorage.setItem(this.tokenKey, response.authToken);
+        sessionStorage.setItem(this.accessTokenKey, response.accessToken);
+        localStorage.setItem(this.refreshTokenKey, response.refreshToken);
       }),
       catchError((error) => {
         return throwError(error.error);
@@ -34,7 +36,8 @@ export class AuthService {
 
     return this.http.post<Token>(`${this.apiUrl}/auth/register`, userDetails).pipe(
       tap((response) => {
-        localStorage.setItem(this.tokenKey, response.authToken);
+        sessionStorage.setItem(this.accessTokenKey, response.accessToken);
+        localStorage.setItem(this.refreshTokenKey, response.refreshToken);
       }),
       catchError((error) => {
         return throwError(error.error);
@@ -42,25 +45,36 @@ export class AuthService {
     );
   }
 
+  refreshAccessToken() {
+    const token = this.getRefreshToken();
+
+    return this.http.post<Token>(`${this.apiUrl}/auth/refresh-access-token`, { refreshToken: token, accessToken: '' })
+      .pipe(
+        tap((response) => {
+          sessionStorage.setItem(this.accessTokenKey, response.accessToken);
+        })
+      )
+  }
+
   logout(): void {
     // Remove the token from localStorage or your storage mechanism
-    localStorage.removeItem(this.tokenKey);
+    sessionStorage.removeItem(this.accessTokenKey);
     window.location.reload();
   }
 
   isAuthenticated(): Observable<boolean> {
-    const token = localStorage.getItem(this.tokenKey);
+    const token = this.getToken()
 
     if (!token) {
       return of(false);
     }
 
     else {
-      return this.http.post<boolean>(`${this.apiUrl}/auth/validate-token`, { authToken: token })
+      return this.http.post<boolean>(`${this.apiUrl}/auth/validate-token`, { accessToken: token, refreshToken: '' })
         .pipe(
           tap((result) => {
             if(!result) {
-              localStorage.removeItem(this.tokenKey);
+              localStorage.removeItem(this.accessTokenKey);
             }
           }),
           catchError((error) => {
@@ -73,6 +87,10 @@ export class AuthService {
   }
 
   getToken(): string | null {
-    return localStorage.getItem(this.tokenKey);
+    return sessionStorage.getItem(this.accessTokenKey);
+  }
+
+  getRefreshToken() {
+    return localStorage.getItem(this.refreshTokenKey);
   }
 }

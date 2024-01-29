@@ -29,7 +29,7 @@ export class SearchComponent {
             .includes(this.searchTerm.toLowerCase())
         );
       } else {
-        return false; // Handle other cases as needed
+        return this.searchResult.emit(this.list);
       }
     });
 

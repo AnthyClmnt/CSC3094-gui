@@ -19,6 +19,8 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
+import { CommitDetails } from '../model/commitDetails';
+// @ts-ignore
 import { GitHubCode } from '../model/gitHubCode';
 // @ts-ignore
 import { GitHubRepo } from '../model/gitHubRepo';
@@ -163,6 +165,94 @@ export class GithubService {
             {
                 context: localVarHttpContext,
                 body: gitHubCode,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Getcommitchanges
+     * @param sha 
+     * @param repoOwner 
+     * @param repoName 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getCommitChangesGithubCommitChangesGet(sha: string, repoOwner: string, repoName: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<CommitDetails>;
+    public getCommitChangesGithubCommitChangesGet(sha: string, repoOwner: string, repoName: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<CommitDetails>>;
+    public getCommitChangesGithubCommitChangesGet(sha: string, repoOwner: string, repoName: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<CommitDetails>>;
+    public getCommitChangesGithubCommitChangesGet(sha: string, repoOwner: string, repoName: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+        if (sha === null || sha === undefined) {
+            throw new Error('Required parameter sha was null or undefined when calling getCommitChangesGithubCommitChangesGet.');
+        }
+        if (repoOwner === null || repoOwner === undefined) {
+            throw new Error('Required parameter repoOwner was null or undefined when calling getCommitChangesGithubCommitChangesGet.');
+        }
+        if (repoName === null || repoName === undefined) {
+            throw new Error('Required parameter repoName was null or undefined when calling getCommitChangesGithubCommitChangesGet.');
+        }
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        if (sha !== undefined && sha !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>sha, 'sha');
+        }
+        if (repoOwner !== undefined && repoOwner !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>repoOwner, 'repoOwner');
+        }
+        if (repoName !== undefined && repoName !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>repoName, 'repoName');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        let localVarCredential: string | undefined;
+        // authentication (HTTPBearer) required
+        localVarCredential = this.configuration.lookupCredential('HTTPBearer');
+        if (localVarCredential) {
+            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
+        }
+
+        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (localVarHttpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/github/commit/changes`;
+        return this.httpClient.request<CommitDetails>('get', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,

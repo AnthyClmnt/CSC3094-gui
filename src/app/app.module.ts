@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import {GithubAuthCallbackComponent} from "./github-auth-callback/github-auth-callback.component";
 import {AppRoutingModule} from "./app-routing-module";
 import {GithubConnectComponent} from "./github-connect/github-connect.component";
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {AuthService} from "./services/auth-service";
 import {LoadingComponent} from "./shared/loading-component/loading-component.component";
 import {LoginComponent} from "./login/login.component";
@@ -16,11 +16,13 @@ import {DashboardComponent} from "./dashboard/dashboard.component";
 import {UserService} from "./services/user-service";
 import {NavBarComponent} from "./shared/nav-bar/nav-bar.component";
 import {NgIconsModule} from "@ng-icons/core";
-import {heroBugAnt, heroChartBar, heroShieldExclamation, heroSquares2x2, heroCog6Tooth, heroArrowLeftOnRectangle, heroArrowRight, heroCodeBracket, heroMagnifyingGlass, heroFaceFrown} from '@ng-icons/heroicons/outline'
+import {heroBugAnt, heroChartBar, heroShieldExclamation, heroSquares2x2, heroCog6Tooth, heroArrowLeftOnRectangle, heroArrowRight, heroCodeBracket, heroMagnifyingGlass, heroFaceFrown, heroDocument, heroChevronDown, heroChevronUp} from '@ng-icons/heroicons/outline'
 import {CodeFileChangesComponent} from "./codeFileChanges/codeFileChanges.component";
 import {RepoCommitHistoryComponent} from "./repo-commit-history/repo-commit-history.component";
 import {AppBarComponent} from "./shared/app-bar/app-bar.component";
 import {SearchComponent} from "./shared/search-component/search.component";
+import {AccordionComponent} from "./shared/accordion-component/accordion.component";
+import {TokenInterceptor} from "./token.interceptor";
 
 @NgModule({
   declarations: [
@@ -36,6 +38,7 @@ import {SearchComponent} from "./shared/search-component/search.component";
     RepoCommitHistoryComponent,
     AppBarComponent,
     SearchComponent,
+    AccordionComponent,
   ],
   imports: [
     BrowserModule,
@@ -43,9 +46,9 @@ import {SearchComponent} from "./shared/search-component/search.component";
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    NgIconsModule.withIcons({ heroCog6Tooth, heroBugAnt, heroChartBar, heroShieldExclamation, heroSquares2x2, heroArrowLeftOnRectangle, heroArrowRight, heroCodeBracket, heroMagnifyingGlass, heroFaceFrown }),
+    NgIconsModule.withIcons({ heroCog6Tooth, heroBugAnt, heroChartBar, heroShieldExclamation, heroSquares2x2, heroArrowLeftOnRectangle, heroArrowRight, heroCodeBracket, heroMagnifyingGlass, heroFaceFrown, heroDocument, heroChevronDown, heroChevronUp }),
   ],
-  providers: [AuthService, AuthGuard, UserService],
+  providers: [AuthService, AuthGuard, UserService, { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

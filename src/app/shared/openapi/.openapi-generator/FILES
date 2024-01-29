@@ -11,6 +11,9 @@ git_push.sh
 index.ts
 model/commit.ts
 model/commitAuthor.ts
+model/commitDetails.ts
+model/commitFiles.ts
+model/commitStats.ts
 model/gitHubCode.ts
 model/gitHubRepo.ts
 model/hTTPValidationError.ts
