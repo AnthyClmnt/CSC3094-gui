@@ -1,4 +1,9 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, OnInit, QueryList, ViewChildren} from "@angular/core";
+import {ActivatedRoute} from "@angular/router";
+import {UserService} from "../services/user-service";
+import {CommitDetails, CommitFiles} from "../shared/openapi";
+import {Observable, switchMap} from "rxjs";
+import {AccordionComponent} from "../shared/accordion-component/accordion.component";
 
 @Component({
   selector: 'codeChanges',
@@ -6,35 +11,34 @@ import {Component, OnInit} from "@angular/core";
   styleUrls: ['codeFileChanges.component.scss'],
 })
 export class CodeFileChangesComponent implements OnInit {
-  files = [
-    {
-      "sha": "f02986e7559a6ac6197c1f72a93f11394fa2024c",
-      "filename": "Assets/Scripts/GameWin.cs",
-      "status": "modified",
-      "additions": 3,
-      "deletions": 2,
-      "changes": 5,
-      "blob_url": "https://github.com/AnthyClmnt/Elementals/blob/5860f49b3be0b26ba5fca8b9e54e480b8d2f3723/Assets%2FScripts%2FGameWin.cs",
-      "raw_url": "https://github.com/AnthyClmnt/Elementals/raw/5860f49b3be0b26ba5fca8b9e54e480b8d2f3723/Assets%2FScripts%2FGameWin.cs",
-      "contents_url": "https://api.github.com/repos/AnthyClmnt/Elementals/contents/Assets%2FScripts%2FGameWin.cs?ref=5860f49b3be0b26ba5fca8b9e54e480b8d2f3723",
-      "patch": "@@ -5,8 +5,9 @@ public class GameWin : MonoBehaviour\n {\n     public TMP_Text text;\n \n-    public void Start()\n+    // when scene is loaded the result of the game is shown\n+    public void Start() \n     {\n-        text.text = GameManager.Instance.gameState == GameState.HeroWin ? \"You won!!\" : \"Enemy won :(\";\n+        text.text = GameManager.Instance.gameState == GameState.HeroWin ? \"You won!!\" : \"Enemy won :(\"; // change text of the game result\n     }\n }"
-    },
-    // Add more files as needed
-  ];
+  @ViewChildren(AccordionComponent) accordions!: QueryList<AccordionComponent>;
+  commitData$!: Observable<CommitDetails>;
+  filteredFiles: CommitFiles[] = [];
 
-  changes: { lineNumber: number; text: string; added: boolean; removed: boolean }[] = [];
+  public allClosed = false
+  constructor(private route: ActivatedRoute, private userService: UserService) {}
 
   ngOnInit() {
-    this.processCode();
+    this.commitData$ = this.route.params
+      .pipe(
+        switchMap((params) => {
+          const repoOwner = params['repoOwner'];
+          const repoName = params['repoName'];
+          const sha = params['sha'];
+
+          return this.userService.getCommitDetails({
+            repoOwner: repoOwner,
+            repoName: repoName,
+            sha: sha
+          });
+        })
+      )
+
+    this.commitData$.subscribe((data) => this.filteredFiles = data.files)
   }
 
-  private processCode(): void {
-    const patch = this.files[0].patch;
-    this.changes = this.parsePatch(patch);
-  }
-
-  private parsePatch(patch: string): any[] {
-    const changes: any[] = [];
+  public parsePatch(patch: string): any[] {
+    const changes: { lineNumber: number | null; text: string; added: boolean; removed: boolean }[] = [];
 
     const lines = patch.split('\n');
     let lineNumber = 1;
@@ -71,6 +75,16 @@ export class CodeFileChangesComponent implements OnInit {
   }
 
   getRange(count: number): any[] {
-    return Array.from({ length: count }, (_, index) => ({ index }));
+    const result = Array.from({ length: count }, (_, index) => ({ index }));
+    return result.length > 5 ? result.slice(0, 5) : result
+  }
+
+  onSearchResult(result: CommitFiles[]): void {
+    this.filteredFiles = result
+  }
+
+  toggleAll() {
+    this.allClosed = !this.allClosed;
+    this.accordions.forEach(accordion => accordion.toggle());
   }
 }

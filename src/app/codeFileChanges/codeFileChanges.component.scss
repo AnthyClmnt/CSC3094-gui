@@ -2,13 +2,74 @@ section {
   margin: 2em;
 }
 
-pre {
-  width: fit-content;
+.header {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 3em;
+
+  h2 {
+    max-width: 80%;
+    line-height: 30px;
+    margin-bottom: .5em;
+    font-weight: 500;
+  }
+
+  div:first-of-type {
+    display: inline-flex;
+    gap: .5em;
+  }
+}
+
+.controls-container {
+  display: inline-flex;
+  justify-content: space-between;
+
+  button {
+    padding: 0 2.5em;
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
+    gap: 1em;
+    align-items: center;
+    cursor: pointer;
+    background-color: whitesmoke;
+    border: 1px solid lightgray;
+    transition: all .25s ease;
+  }
+
+  button:hover {
+    border-color: #6855E0;
+    color: #6855E0;
+  }
+}
+
+.accordion-title {
+  display: flex;
+  flex-direction: column;
+  gap: .5em;
+
+  > * {
+    user-select: none;
+  }
+}
+
+.pre {
+  width: 100%;
   background-color: whitesmoke;
   border: 1px solid lightgray;
-  border-radius: 10px;
+  border-radius: 0 0 10px 10px;
   height: fit-content;
   user-select: none;
+}
+
+.pre-empty {
+  padding: 1em;
+}
+
+.doc-header {
+  display: inline-flex;
+  align-items: center;
+  gap: .5em;
 }
 
 /* codeFileChanges.component.scss */
@@ -28,6 +89,8 @@ pre {
 
 .line-text {
   padding-right: 1em;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .added {
@@ -43,6 +106,26 @@ pre {
   height: 15px;
 }
 
+.code-container, .file-container {
+  display: flex;
+  flex-direction: column;
+  gap: .5em;
+}
+
+.code-container {
+  gap: 1em;
+}
+
+.file-container {
+  border-bottom: 1px solid lightgray;
+  padding-bottom: 1em;
+}
+
+.file-container:last-of-type {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
 .changes-box {
   display: inline-flex;
   align-items: center;
@@ -55,7 +138,13 @@ pre {
   .removed {
     background-color: rgba(249, 192, 192);
   }
+
+  .box-text {
+    margin-left: .5em;
+  }
 }
+
+
 
 @media only screen and (max-width: 1150px) {
   pre {

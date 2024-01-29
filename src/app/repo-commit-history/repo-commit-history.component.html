@@ -1,18 +1,10 @@
-<!--<section *ngIf="commits$ | async as commits; else loadingTemplate">
-  <div *ngFor="let commit of commits">
-    <h4>{{commit.commit.message}}</h4>
-    <p>{{commit.commit.author.name}}</p>
-    <p>{{commit.commit.author.date | date : 'dd MMM YYYY, h:mm a '}}</p>
-  </div>
-</section>-->
-
 <section *ngIf="commits$ | async as commits; else loadingTemplate">
   <div class="timeline">
     <div class="timeline-container" *ngFor="let commit of commits">
       <div class="timeline-icon">
         <ng-icon name="heroCodeBracket"></ng-icon>
       </div>
-      <div class="timeline-body">
+      <div (click)="navigateToCommitDetails(commit.sha)" class="timeline-body">
         <h4 class="timeline-title"><span class="badge">{{commit.commit.author.name}}</span></h4>
         <p>{{commit.commit.message}}</p>
         <p class="timeline-subtitle">{{commit.commit.author.date | date : 'dd MMM YYYY, h:mm a '}}</p>

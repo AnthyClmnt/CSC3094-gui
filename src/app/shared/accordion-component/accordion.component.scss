@@ -1,0 +1,23 @@
+.accordion-header {
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  width: 100%;
+  padding: 1em;
+  border: 1px solid lightgray;
+  border-radius: 10px;
+}
+
+ng-icon {
+  margin-left: auto;
+  margin-right: 3em;
+}
+
+.selected {
+  border-radius: 10px 10px 0 0;
+  border-bottom: none;
+}
+
+.accordion-content {
+  transition: all 3s ease;
+}
