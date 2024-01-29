@@ -1,0 +1,14 @@
+<section>
+  <h3>{{ files[0].filename }}</h3>
+  <div class="changes-box">
+    <div *ngFor="let _ of getRange(files[0].additions)" class="added box"></div>
+    <div *ngFor="let _ of getRange(files[0].deletions)" class="removed box"></div>
+    <small>{{files[0].changes}} changes: +{{files[0].additions}} additions, -{{files[0].deletions}} deletions</small>
+  </div>
+  <pre>
+    <div *ngFor="let line of changes" class="code-line" [ngClass]="{ 'added': line.added, 'removed': line.removed }">
+      <span class="line-number">{{ line.lineNumber !== null ? line.lineNumber : '' }}</span>
+      <span class="line-text">{{ line.text }}</span>
+    </div>
+  </pre>
+</section>

@@ -1,0 +1,26 @@
+<section>
+  <img src="assets/logo.png" alt="logo">
+  <div class="links">
+    <a [routerLink]="['/dashboard']" routerLinkActive="active">
+      <ng-icon name="heroSquares2x2"></ng-icon>
+    </a>
+    <a [routerLink]="['/code-changes']" routerLinkActive="active">
+      <ng-icon name="heroCodeBracket"></ng-icon>
+    </a>
+    <a>
+      <ng-icon name="heroBugAnt"></ng-icon>
+    </a>
+    <a>
+      <ng-icon name="heroShieldExclamation"></ng-icon>
+    </a>
+    <a>
+      <ng-icon name="heroChartBar"></ng-icon>
+    </a>
+    <a class="bottom">
+      <ng-icon name="heroCog6Tooth"></ng-icon>
+    </a>
+    <a (click)="signOut()">
+      <ng-icon name="heroArrowLeftOnRectangle"></ng-icon>
+    </a>
+  </div>
+</section>

@@ -1,0 +1,15 @@
+section {
+  background-color: #6855E0;
+  position: relative;
+  z-index: 100;
+  color: white;
+  display: inline-flex;
+  gap: 1em;
+  align-items: center;
+  width: 100%;
+  padding: .5em 2em;
+
+  p:first-of-type {
+    margin-left: auto;
+  }
+}

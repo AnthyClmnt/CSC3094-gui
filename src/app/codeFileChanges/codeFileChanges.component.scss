@@ -1,0 +1,65 @@
+section {
+  margin: 2em;
+}
+
+pre {
+  width: fit-content;
+  background-color: whitesmoke;
+  border: 1px solid lightgray;
+  border-radius: 10px;
+  height: fit-content;
+  user-select: none;
+}
+
+/* codeFileChanges.component.scss */
+.code-line {
+  display: flex;
+  align-items: center;
+  margin-right: 1.5em;
+}
+
+.line-number {
+  display: inline-block;
+  width: 2em;
+  text-align: right;
+  margin-right: 1.5em;
+  color: #888;
+}
+
+.line-text {
+  padding-right: 1em;
+}
+
+.added {
+  background-color: rgba(200, 247, 197, 0.50); /* Light green background for added lines */
+}
+
+.removed {
+  background-color: rgba(249, 192, 192, 0.50); /* Light red background for removed lines */
+}
+
+.box {
+  width: 15px;
+  height: 15px;
+}
+
+.changes-box {
+  display: inline-flex;
+  align-items: center;
+  gap: .25em;
+
+  .added {
+    background-color: rgba(200, 247, 197);
+  }
+
+  .removed {
+    background-color: rgba(249, 192, 192);
+  }
+}
+
+@media only screen and (max-width: 1150px) {
+  pre {
+    white-space: pre-line;
+  }
+}
+

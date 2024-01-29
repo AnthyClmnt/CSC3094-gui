@@ -1,0 +1,31 @@
+<loading-spinner *ngIf="submitted" text="Logging in..." [overlay]="true"/>
+<section>
+  <form [formGroup]=loginForm (ngSubmit)="formSubmit()">
+    <img src="assets/logo.png" alt="logo">
+    <h2>Welcome back</h2>
+
+    <div *ngIf="errorMessage" class="error-message">
+      <p>{{errorMessage}}</p>
+      <button (click)="closeAlert()">x</button>
+    </div>
+
+    <div class="input-container">
+      <input type="email" formControlName="email" placeholder="email" [ngClass]="{'invalid-input': showEmailRequiredError() || showEmailFormatError()}"/>
+      <small *ngIf="showEmailRequiredError()">Email is required.</small>
+      <small *ngIf="showEmailFormatError()">Please enter a valid email address.</small>
+    </div>
+
+    <div class="input-container">
+      <input type="password" formControlName="password" placeholder="password" [ngClass]="{'invalid-input': showPasswordRequiredError() || showPasswordLengthError()}"/>
+      <small *ngIf="showPasswordRequiredError()">Password is required.</small>
+      <small *ngIf="showPasswordLengthError()">Please enter a valid password.</small>
+    </div>
+
+    <button [disabled]="loginForm.invalid" class="log" type="submit">login</button>
+
+    <div class="links-container">
+      <a [routerLink]="['/register']">Register</a>
+      <a>Forgot Password</a>
+    </div>
+  </form>
+</section>

@@ -1,0 +1,21 @@
+<section class="repo-section" *ngIf="userRepos$ | async as userRepos; else loadingTemplate">
+  <div (click)="navigateToCommits(repo.owner.name, repo.repoName)" class="card" *ngFor="let repo of userRepos">
+    <span class="header">
+      <h4> {{ repo.repoName }}</h4>
+      <img [src]="repo.owner.avatarUrl" alt="owner profile">
+      <span class="tag">{{ repo.visibility }}</span>
+    </span>
+
+    <p class="desc">{{ repo.description}}</p>
+
+    <div class="break"></div>
+
+    <p> Last updated: {{ repo.updatedAt | date }}</p>
+    <span class="language" *ngIf="repo.language"><div [style.background-color]="repo.languageColour" class="language-div"></div><small>{{repo.language}}</small></span>
+  </div>
+</section>
+
+<ng-template #loadingTemplate>
+  <loading-spinner [overlay]="true" text="Loading Github Information..."/>
+</ng-template>
+
