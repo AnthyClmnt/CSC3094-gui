@@ -1,7 +1,6 @@
-<button *ngIf="!showConnect()" (click)="authenticate()">Connect Github</button>
-<p>{{showConnect()}}</p>
-<div *ngIf="repoInfo">
-  <div *ngFor="let item of repoInfo">
-    <pre>{{ item | json }}</pre>
-  </div>
-</div>
+<section>
+  <button (click)="authenticate()">
+    <img src="assets/github-mark.png">
+    <h4>Connect Github</h4>
+  </button>
+</section>

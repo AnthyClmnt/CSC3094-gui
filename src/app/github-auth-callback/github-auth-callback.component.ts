@@ -29,6 +29,7 @@ export class GithubAuthCallbackComponent implements OnInit {
       else {
         const code = params['error'];
         console.log(code);
+        this.router.navigateByUrl('/github-connect').then()
       }
     })
   }

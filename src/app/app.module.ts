@@ -23,6 +23,7 @@ import {AppBarComponent} from "./shared/app-bar/app-bar.component";
 import {SearchComponent} from "./shared/search-component/search.component";
 import {AccordionComponent} from "./shared/accordion-component/accordion.component";
 import {TokenInterceptor} from "./token.interceptor";
+import {GithubGuard} from "./shared/github.guard";
 
 @NgModule({
   declarations: [
@@ -48,7 +49,7 @@ import {TokenInterceptor} from "./token.interceptor";
     ReactiveFormsModule,
     NgIconsModule.withIcons({ heroCog6Tooth, heroBugAnt, heroChartBar, heroShieldExclamation, heroSquares2x2, heroArrowLeftOnRectangle, heroArrowRight, heroCodeBracket, heroMagnifyingGlass, heroFaceFrown, heroDocument, heroChevronDown, heroChevronUp }),
   ],
-  providers: [AuthService, AuthGuard, UserService, { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }],
+  providers: [AuthService, AuthGuard, GithubGuard, UserService, { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

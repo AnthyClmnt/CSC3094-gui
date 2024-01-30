@@ -15,7 +15,6 @@ export class DashboardComponent implements OnInit {
   filteredRepos: GitHubRepo[] = [];
 
   ngOnInit(): void {
-    // Initialize filteredRepos with the full list of repositories
     this.userRepos$.subscribe(repos => this.filteredRepos = repos);
   }
 

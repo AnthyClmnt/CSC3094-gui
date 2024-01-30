@@ -86,6 +86,11 @@ export class AuthService {
     }
   }
 
+  isGithubConnected(): Observable<boolean> {
+    const token = this.getToken();
+    return this.http.post<boolean>(`${this.apiUrl}/auth/validate-connection`, { accessToken: token, refreshToken: '' })
+  }
+
   getToken(): string | null {
     return sessionStorage.getItem(this.accessTokenKey);
   }
