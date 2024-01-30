@@ -3,21 +3,28 @@ import {Router, CanActivate, RouterStateSnapshot, ActivatedRouteSnapshot} from '
 import {AuthService} from "../services/auth-service";
 import {map} from "rxjs/operators";
 import {Observable, take} from "rxjs";
+import {LoadingService} from "../services/loading.service";
 
 @Injectable()
 export class GithubGuard implements CanActivate {
-  constructor(public auth: AuthService, public router: Router) {}
+  constructor(private auth: AuthService, private router: Router, private loadingService: LoadingService) {}
 
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> {
+    this.loadingService.setLoading({
+      active: true,
+      text: 'Loading...',
+      overlay: true
+    });
     return this.auth.isGithubConnected().pipe(
       take(1),
       map((connected: boolean) => {
-        console.log('connected')
         if (!connected) {
+          this.loadingService.deactivateLoading();
           this.router.navigate(['/github-connect']).then();
         }
+        this.loadingService.deactivateLoading();
         return connected;
       })
     );

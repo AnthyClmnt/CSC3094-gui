@@ -1,19 +1,19 @@
 <section>
   <img src="assets/logo.png" alt="logo">
   <div class="links">
-    <a [routerLink]="['/dashboard']" routerLinkActive="active">
+    <a *ngIf="showLink()" [routerLink]="['/dashboard']" routerLinkActive="active">
       <ng-icon name="heroSquares2x2"></ng-icon>
     </a>
-    <a [routerLink]="['/code-changes']" routerLinkActive="active">
+    <a *ngIf="showLink()" [routerLink]="['/code-changes']" routerLinkActive="active">
       <ng-icon name="heroCodeBracket"></ng-icon>
     </a>
-    <a>
+    <a *ngIf="showLink()">
       <ng-icon name="heroBugAnt"></ng-icon>
     </a>
-    <a>
+    <a *ngIf="showLink()">
       <ng-icon name="heroShieldExclamation"></ng-icon>
     </a>
-    <a>
+    <a *ngIf="showLink()">
       <ng-icon name="heroChartBar"></ng-icon>
     </a>
     <a class="bottom">

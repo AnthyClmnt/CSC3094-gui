@@ -1,15 +1,16 @@
 import {Injectable} from "@angular/core";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Observable, take} from "rxjs";
-import {AuthService} from "./auth-service";
+import {Observable, of, shareReplay, take} from "rxjs";
+import {AuthService, CachedResponse} from "./auth-service";
 import {CommitDetails, GitHubRepo, RepoCommit, User} from "../shared/openapi";
+import {tap} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
   private apiUrl = 'http://localhost:8000';
-  private gitReposCache$!: Observable<GitHubRepo[]>;
+  private cachedResponses: { [key: string]: CachedResponse } = {};
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
@@ -23,16 +24,24 @@ export class UserService {
   }
 
   public getRepos(): Observable<GitHubRepo[]> {
-    if (!this.gitReposCache$) {
-      const headers = new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${this.authService.getToken()}`,
-      });
+    const cacheKey = 'githubRepos';
+    const cachedData = this.cachedResponses[cacheKey];
 
-      this.gitReposCache$ = this.http.get<GitHubRepo[]>('http://localhost:8000/github/repos', {headers})
+    if (cachedData && Date.now() - cachedData.timestamp < 60000) {
+      return of(cachedData.data)
     }
 
-    return this.gitReposCache$;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.authService.getToken()}`,
+    });
+
+    return this.http.get<GitHubRepo[]>('http://localhost:8000/github/repos', {headers}).pipe(
+      shareReplay(1),
+      tap((response) => {
+        this.cachedResponses[cacheKey] = { data: response, timestamp: Date.now()}
+      })
+    )
   }
 
   public getCommits(params: {repoOwner : string, repoName : string}): Observable<RepoCommit[]> {

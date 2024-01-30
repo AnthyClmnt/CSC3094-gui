@@ -5,6 +5,12 @@ import {HttpClient} from '@angular/common/http';
 import {Observable, of, shareReplay, throwError} from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
 import {Token, UserLogin, UserRegistration} from "../shared/openapi";
+import {LoadingService} from "./loading.service";
+
+export interface CachedResponse {
+  data: any;
+  timestamp: number;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +20,9 @@ export class AuthService {
   private accessTokenKey = 'accessToken';
   private refreshTokenKey = 'refreshToken';
 
-  constructor(private http: HttpClient) {}
+  private cachedResponses: { [key: string]: CachedResponse } = {};
+
+  constructor(private http: HttpClient, private loadingService: LoadingService) {}
 
   login(email: string, password: string): Observable<Token> {
     const credentials: UserLogin = { email, password };
@@ -57,12 +65,26 @@ export class AuthService {
   }
 
   logout(): void {
-    // Remove the token from localStorage or your storage mechanism
+    this.loadingService.setLoading({
+      active: true,
+      text: 'Logging Out...',
+      overlay: true
+    });
     sessionStorage.removeItem(this.accessTokenKey);
-    window.location.reload();
+    setTimeout(() =>{
+      window.location.reload();
+    }, 500)
+
   }
 
   isAuthenticated(): Observable<boolean> {
+    const cacheKey = 'isAccessTokenValid';
+    const cachedData = this.cachedResponses[cacheKey];
+
+    if (cachedData && Date.now() - cachedData.timestamp < 10000) {
+      return of(cachedData.data)
+    }
+
     const token = this.getToken()
 
     if (!token) {
@@ -73,6 +95,8 @@ export class AuthService {
       return this.http.post<boolean>(`${this.apiUrl}/auth/validate-token`, { accessToken: token, refreshToken: '' })
         .pipe(
           tap((result) => {
+            this.cachedResponses[cacheKey] = { data: result, timestamp: Date.now()}
+
             if(!result) {
               localStorage.removeItem(this.accessTokenKey);
             }
@@ -87,8 +111,21 @@ export class AuthService {
   }
 
   isGithubConnected(): Observable<boolean> {
+    const cacheKey = 'githubConnected';
+    const cachedData = this.cachedResponses[cacheKey];
+
+    if (cachedData && Date.now() - cachedData.timestamp < 30000) {
+      return of(cachedData.data)
+    }
+
     const token = this.getToken();
     return this.http.post<boolean>(`${this.apiUrl}/auth/validate-connection`, { accessToken: token, refreshToken: '' })
+      .pipe(
+        tap((result) => {
+          this.cachedResponses[cacheKey] = { data: result, timestamp: Date.now()}
+        }),
+        shareReplay(1)
+      )
   }
 
   getToken(): string | null {
