@@ -82,7 +82,7 @@ export class AuthService {
     const cachedData = this.cachedResponses[cacheKey];
 
     if (cachedData && Date.now() - cachedData.timestamp < 10000) {
-      return of(cachedData.data)
+      return of(cachedData.data as boolean)
     }
 
     const token = this.getToken()
@@ -115,7 +115,7 @@ export class AuthService {
     const cachedData = this.cachedResponses[cacheKey];
 
     if (cachedData && Date.now() - cachedData.timestamp < 30000) {
-      return of(cachedData.data)
+      return of(cachedData.data as boolean)
     }
 
     const token = this.getToken();

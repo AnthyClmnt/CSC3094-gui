@@ -28,7 +28,7 @@ export class UserService {
     const cachedData = this.cachedResponses[cacheKey];
 
     if (cachedData && Date.now() - cachedData.timestamp < 60000) {
-      return of(cachedData.data)
+      return of(cachedData.data as GitHubRepo[])
     }
 
     const headers = new HttpHeaders({
