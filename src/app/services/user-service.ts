@@ -53,6 +53,15 @@ export class UserService {
     return this.http.get<RepoCommit[]>(`http://localhost:8000/github/commits?repoOwner=${params.repoOwner}&repoName=${params.repoName}`, {headers})
   }
 
+  public getRepoOverview(params: {repoOwner : string, repoName : string}): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.authService.getToken()}`,
+    });
+
+    return this.http.get<RepoCommit[]>(`http://localhost:8000/github/repo-overview?repoOwner=${params.repoOwner}&repoName=${params.repoName}`, {headers})
+  }
+
   public getCommitDetails(params: {repoOwner : string, repoName : string, sha: string}): Observable<CommitDetails> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',

@@ -1,0 +1,66 @@
+<section *ngIf="repoOverview$ | async as overview; else loadingTemplate">
+  <div>
+    <h1>{{overview.repo_info.name}}</h1>
+    <p>{{overview.repo_info.description}}</p>
+  </div>
+
+  <section class="grid-section">
+    <div class="container contributors">
+      <h4>Contributors</h4>
+      <span *ngFor="let contributor of overview.contributors">
+        <img [src]="contributor.avatar_url" alt=""/>
+        <p>{{contributor.name}}</p>
+        <p *ngIf="contributor.name === overview.repo_info.owner">OWNER</p>
+      </span>
+    </div>
+
+    <div class="container">
+      <h4>Language Distribution</h4>
+      <canvas width="250" height="250" baseChart
+              [type]="'pie'"
+              [datasets]="formatData(overview.language_distribution)"
+              [labels]="overview.language_distribution.labels"
+              [options]="pieChartOptions"
+              [plugins]="pieChartPlugins"
+              [legend]="chartLegend">
+      </canvas>
+
+      <div class="language-legend">
+        <span *ngFor="let _ of overview.language_distribution.labels; let i = index">
+          <div class="colour" [style.background-color]="overview.language_distribution.colours[i] ?? '#6855E0'"></div>
+          <p>{{overview.language_distribution.labels[i]}}: <b>{{overview.language_distribution.total[i]}}%</b></p>
+        </span>
+      </div>
+    </div>
+
+    <div class="container contributors" *ngIf="overview.last_commits.length > 0">
+      <h4>Recent Commits</h4>
+      <div *ngFor="let commit of overview.last_commits">
+        <div (click)="navigateToCommitDetails(commit.sha)">
+          <h4><span>{{commit.author}}</span></h4>
+          <p>{{commit.message}}</p>
+          <p>{{commit.timestamp | date : 'dd MMM YYYY, h:mm a '}}</p>
+        </div>
+      </div>
+      <button (click)="navigateToAllCommits()">
+        View All
+        <ng-icon class="arrow-left" name="heroArrowLeft"></ng-icon>
+      </button>
+    </div>
+
+    <div class="container">
+      <h4>Commit Distribution</h4>
+      <canvas width="500" height="250" baseChart
+              [datasets]="getBarChartData(overview.contributors)"
+              [labels]="getBarChartLabels(overview.contributors)"
+              [options]="barChartOptions"
+              [legend]="chartLegend"
+              [type]="barChartType">
+      </canvas>
+    </div>
+  </section>
+</section>
+
+<ng-template #loadingTemplate>
+  <loading-spinner [overlay]="true" text="Loading Commits..."/>
+</ng-template>
