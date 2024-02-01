@@ -16,7 +16,7 @@ import {DashboardComponent} from "./dashboard/dashboard.component";
 import {UserService} from "./services/user-service";
 import {NavBarComponent} from "./shared/nav-bar/nav-bar.component";
 import {NgIconsModule} from "@ng-icons/core";
-import {heroBugAnt, heroChartBar, heroShieldExclamation, heroSquares2x2, heroCog6Tooth, heroArrowLeftOnRectangle, heroArrowRight, heroCodeBracket, heroMagnifyingGlass, heroFaceFrown, heroDocument, heroChevronDown, heroChevronUp} from '@ng-icons/heroicons/outline'
+import {heroBugAnt, heroChartBar, heroShieldExclamation, heroSquares2x2, heroCog6Tooth, heroArrowLeftOnRectangle, heroArrowRight, heroCodeBracket, heroMagnifyingGlass, heroFaceFrown, heroDocument, heroChevronDown, heroChevronUp, heroArrowLeft} from '@ng-icons/heroicons/outline'
 import {CodeFileChangesComponent} from "./codeFileChanges/codeFileChanges.component";
 import {RepoCommitHistoryComponent} from "./repo-commit-history/repo-commit-history.component";
 import {AppBarComponent} from "./shared/app-bar/app-bar.component";
@@ -28,6 +28,8 @@ import {LoadingService} from "./services/loading.service";
 import {UnAuthGuard} from "./shared/unAuth.guard";
 import {UnGithubGuard} from "./shared/unGithub.guard";
 import {NotFoundPageComponent} from "./not-found-page/not-found-page.component";
+import {RepositoryOverviewComponent} from "./repository-overview/repository-overview.component";
+import { NgChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -45,14 +47,16 @@ import {NotFoundPageComponent} from "./not-found-page/not-found-page.component";
     SearchComponent,
     NotFoundPageComponent,
     AccordionComponent,
+    RepositoryOverviewComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    NgChartsModule,
     FormsModule,
     ReactiveFormsModule,
-    NgIconsModule.withIcons({ heroCog6Tooth, heroBugAnt, heroChartBar, heroShieldExclamation, heroSquares2x2, heroArrowLeftOnRectangle, heroArrowRight, heroCodeBracket, heroMagnifyingGlass, heroFaceFrown, heroDocument, heroChevronDown, heroChevronUp }),
+    NgIconsModule.withIcons({ heroCog6Tooth, heroBugAnt, heroChartBar, heroShieldExclamation, heroSquares2x2, heroArrowLeftOnRectangle, heroArrowRight, heroCodeBracket, heroMagnifyingGlass, heroFaceFrown, heroDocument, heroChevronDown, heroChevronUp, heroArrowLeft }),
   ],
   providers: [AuthService, AuthGuard, UnAuthGuard, GithubGuard, UnGithubGuard, UserService, LoadingService, { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }],
   bootstrap: [AppComponent]

@@ -3,6 +3,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {AuthService} from "../services/auth-service";
 import {LoadingService} from "../services/loading.service";
+import {take} from "rxjs";
 
 @Component({
   selector: 'github-auth-callback',
@@ -27,10 +28,10 @@ export class GithubAuthCallbackComponent implements OnInit {
 
       if (code) {
         this.http.post(`http://localhost:8000/github/access-token`, {code: code}, {headers})
-          .subscribe((res) => {
-            sessionStorage.setItem("githubToken", res.toString())
+          .pipe(take(1))
+          .subscribe(() => {
             this.loadingService.deactivateLoading();
-            this.router.navigateByUrl('').then()
+            window.location.reload()
           })
       }
       else {

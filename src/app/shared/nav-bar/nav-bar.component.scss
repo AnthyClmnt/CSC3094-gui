@@ -46,11 +46,18 @@ a:hover {
 }
 
 img {
-  width: 50px;
+  width: 35px;
+  cursor: pointer;
 }
 
 ng-icon {
   color: #24292e;
   font-size: 1.5em;
   transition: color 0.2s ease;
+}
+
+.line-break {
+  margin: 1em 0;
+  border-bottom: 1px solid #24292e;
+  width: 60%;
 }

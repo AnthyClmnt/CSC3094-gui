@@ -1,23 +1,52 @@
-import {Component} from "@angular/core";
+import {Component, OnDestroy, OnInit} from "@angular/core";
 import {AuthService} from "../../services/auth-service";
-import {Router} from "@angular/router";
+import {Navigation, NavigationEnd, Router} from "@angular/router";
+import {filter, Subscription} from "rxjs";
 
 @Component({
   selector: 'nav-bar',
   templateUrl: 'nav-bar.component.html',
   styleUrls: ['nav-bar.component.scss']
 })
-export class NavBarComponent {
+export class NavBarComponent implements OnInit, OnDestroy {
+  public repoOwner: string | undefined
+  public repoName: string | undefined
+  private routeChangeSubscription: Subscription | undefined;
+  private restrictedLinks = ['/github-connect', '/callback']
   constructor(private authService: AuthService, private router: Router) {}
 
-  private restrictedLinks = ['/github-connect', '/callback']
+  ngOnInit() {
+    this.routeChangeSubscription = this.router.events.pipe(
+      filter((event) => event instanceof NavigationEnd)
+    ).subscribe((event: any) => {
+      // Do something when the route changes
+      const x = window.location.pathname.replace('/', '').split('/')
+      this.repoOwner = x[1]
+      this.repoName = x[2]
+    });
+  }
 
   signOut() {
     this.authService.logout();
   }
 
-  showLink() {
+  hideLinksOnGithubPages(): boolean {
     const currentRoute = this.router.url
     return !this.restrictedLinks.includes(currentRoute)
+  }
+
+  hideLinks(): boolean {
+    const currentRoute = this.router.url
+    return currentRoute.replace('/', '').split('/')[0] == 'repository'
+  }
+
+  navigateHome() {
+    this.router.navigateByUrl('/').then()
+  }
+
+  ngOnDestroy() {
+    if (this.routeChangeSubscription) {
+      this.routeChangeSubscription.unsubscribe();
+    }
   }
 }

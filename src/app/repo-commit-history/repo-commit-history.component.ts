@@ -33,6 +33,6 @@ export class RepoCommitHistoryComponent implements OnInit {
   }
 
   navigateToCommitDetails(sha: string) {
-    this.router.navigateByUrl(`/commit-history/${this.repoOwner}/${this.repoName}/${sha}`).then()
+    this.router.navigateByUrl(`/repository/${this.repoOwner}/${this.repoName}/commits/${sha}`).then()
   }
 }

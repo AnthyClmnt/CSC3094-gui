@@ -19,7 +19,7 @@ export class DashboardComponent implements OnInit {
   }
 
   navigateToCommits(repoOwner: string, repoName: string) {
-    this.router.navigateByUrl(`/commit-history/${repoOwner}/${repoName}`).then()
+    this.router.navigateByUrl(`/repository/${repoOwner}/${repoName}`).then()
   }
 
   onSearchResult(result: GitHubRepo[]): void {

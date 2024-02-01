@@ -7,3 +7,24 @@
   -webkit-box-sizing: border-box;
 }
 
+button {
+  padding: .5em 4em;
+  border: 1px solid lightgray;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  gap: 1em;
+  justify-content: space-evenly;
+  align-items: center;
+  transition: all .25s ease;
+}
+
+button:hover {
+  border-color: #6855E0;
+  color: #6855E0;
+}
+
+.arrow-left svg {
+    transform: rotate(180deg);
+}
+

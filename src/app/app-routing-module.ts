@@ -12,16 +12,25 @@ import {GithubGuard} from "./shared/github.guard";
 import {UnAuthGuard} from "./shared/unAuth.guard";
 import {UnGithubGuard} from "./shared/unGithub.guard";
 import {NotFoundPageComponent} from "./not-found-page/not-found-page.component";
+import {RepositoryOverviewComponent} from "./repository-overview/repository-overview.component";
 
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full'},
+  { path: 'login', component: LoginComponent, canActivate: [UnAuthGuard]},
+  { path: 'register', component: RegisterComponent, canActivate: [UnAuthGuard]},
+
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard, GithubGuard]},
   { path: 'github-connect', component: GithubConnectComponent, canActivate: [AuthGuard, UnGithubGuard]},
   { path: 'callback', component: GithubAuthCallbackComponent, canActivate: [AuthGuard, UnGithubGuard]},
-  { path: 'login', component: LoginComponent, canActivate: [UnAuthGuard]},
-  { path: 'register', component: RegisterComponent, canActivate: [UnAuthGuard]},
-  { path: 'commit-history/:repoOwner/:repoName', component: RepoCommitHistoryComponent, canActivate: [AuthGuard, GithubGuard]},
-  { path: 'commit-history/:repoOwner/:repoName/:sha', component: CodeFileChangesComponent, canActivate: [AuthGuard, GithubGuard]},
+
+  { path: 'repository/:repoOwner/:repoName',
+    canActivate: [AuthGuard, GithubGuard],
+    children: [
+      { path: '', component: RepositoryOverviewComponent},
+      { path: 'commits', component: RepoCommitHistoryComponent},
+      { path: 'commits/:sha', component: CodeFileChangesComponent},
+    ]
+  },
 
   { path: '**', redirectTo: '/404'},
   { path: '404', component: NotFoundPageComponent}
