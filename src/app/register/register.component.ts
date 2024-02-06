@@ -12,7 +12,6 @@ import {Router} from "@angular/router";
 export class RegisterComponent {
   registerForm: FormGroup;
   errorMessage?: string;
-  showPasswordHint = false;
   submitted = false;
 
   constructor(private authService: AuthService, private fb: FormBuilder, private router: Router) {
@@ -26,10 +25,6 @@ export class RegisterComponent {
 
   closeAlert() {
     this.errorMessage = undefined;
-  }
-
-  togglePasswordHint() {
-    this.showPasswordHint = !this.showPasswordHint;
   }
 
   showEmailRequiredError(): boolean {

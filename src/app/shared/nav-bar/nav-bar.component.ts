@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from "@angular/core";
 import {AuthService} from "../../services/auth-service";
-import {Navigation, NavigationEnd, Router} from "@angular/router";
+import {NavigationEnd, Router} from "@angular/router";
 import {filter, Subscription} from "rxjs";
 
 @Component({
@@ -19,10 +19,9 @@ export class NavBarComponent implements OnInit, OnDestroy {
     this.routeChangeSubscription = this.router.events.pipe(
       filter((event) => event instanceof NavigationEnd)
     ).subscribe((event: any) => {
-      // Do something when the route changes
-      const x = window.location.pathname.replace('/', '').split('/')
-      this.repoOwner = x[1]
-      this.repoName = x[2]
+      const location = window.location.pathname.replace('/', '').split('/')
+      this.repoOwner = location[1]
+      this.repoName = location[2]
     });
   }
 

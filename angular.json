@@ -81,6 +81,7 @@
               "zone.js",
               "zone.js/testing"
             ],
+            "codeCoverage": true,
             "tsConfig": "tsconfig.spec.json",
             "assets": [
               "src/favicon.ico",
@@ -89,7 +90,8 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "karmaConfig": "karma.conf.js"
           }
         }
       }

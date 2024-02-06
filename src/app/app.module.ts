@@ -17,7 +17,7 @@ import {UserService} from "./services/user-service";
 import {NavBarComponent} from "./shared/nav-bar/nav-bar.component";
 import {NgIconsModule} from "@ng-icons/core";
 import {heroBugAnt, heroChartBar, heroShieldExclamation, heroSquares2x2, heroCog6Tooth, heroArrowLeftOnRectangle, heroArrowRight, heroCodeBracket, heroMagnifyingGlass, heroFaceFrown, heroDocument, heroChevronDown, heroChevronUp, heroArrowLeft} from '@ng-icons/heroicons/outline'
-import {CodeFileChangesComponent} from "./codeFileChanges/codeFileChanges.component";
+import {CodeFileChangesComponent} from "./code-file-changes/code-file-changes.component";
 import {RepoCommitHistoryComponent} from "./repo-commit-history/repo-commit-history.component";
 import {AppBarComponent} from "./shared/app-bar/app-bar.component";
 import {SearchComponent} from "./shared/search-component/search.component";

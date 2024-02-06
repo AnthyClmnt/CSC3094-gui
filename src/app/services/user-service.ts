@@ -14,6 +14,16 @@ export class UserService {
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
+
+  public connectGitHub(code: string) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.authService.getToken()}`,
+    });
+
+    return this.http.post(`${this.apiUrl}/github/access-token`, {code: code}, {headers})
+  }
+
   public getUserInfo(): Observable<User> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',

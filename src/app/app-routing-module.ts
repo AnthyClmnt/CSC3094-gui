@@ -5,7 +5,7 @@ import {RegisterComponent} from "./register/register.component";
 import {LoginComponent} from "./login/login.component";
 import {AuthGuard} from "./shared/auth.guard";
 import {DashboardComponent} from "./dashboard/dashboard.component";
-import {CodeFileChangesComponent} from "./codeFileChanges/codeFileChanges.component";
+import {CodeFileChangesComponent} from "./code-file-changes/code-file-changes.component";
 import {RepoCommitHistoryComponent} from "./repo-commit-history/repo-commit-history.component";
 import {GithubConnectComponent} from "./github-connect/github-connect.component";
 import {GithubGuard} from "./shared/github.guard";

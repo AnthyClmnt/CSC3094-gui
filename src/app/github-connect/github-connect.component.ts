@@ -5,8 +5,4 @@ import {Component} from '@angular/core';
   templateUrl: './github-connect.component.html',
   styleUrls: ['./github-connect.component.scss']
 })
-export class GithubConnectComponent {
-  public authenticate() {
-    window.location.href = `https://github.com/login/oauth/authorize?client_id=aa1d86085f6d2590842d&redirect_uri=http://localhost:4200/callback&scope=repo`;
-  }
-}
+export class GithubConnectComponent {}

@@ -1,6 +1,6 @@
 import {Component, OnInit} from "@angular/core";
 import {UserService} from "../services/user-service";
-import {Observable, of} from "rxjs";
+import {Observable} from "rxjs";
 import {GitHubRepo} from "../shared/openapi";
 import {Router} from "@angular/router";
 
@@ -19,7 +19,7 @@ export class DashboardComponent implements OnInit {
   }
 
   navigateToCommits(repoOwner: string, repoName: string) {
-    this.router.navigateByUrl(`/repository/${repoOwner}/${repoName}`).then()
+    this.router.navigateByUrl(`/repository/${repoOwner}/${repoName}`)
   }
 
   onSearchResult(result: GitHubRepo[]): void {

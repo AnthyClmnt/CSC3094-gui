@@ -19,7 +19,6 @@ export class TokenInterceptor implements HttpInterceptor {
       catchError((error) => {
         console.log(error)
         if (error instanceof HttpErrorResponse && error.status === 401 && error.error.detail === 'Token has Expired') {
-          // Token expired, try to refresh
           return this.handleTokenExpiration(request, next);
         }
 
@@ -31,7 +30,6 @@ export class TokenInterceptor implements HttpInterceptor {
   private handleTokenExpiration(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return this.authService.refreshAccessToken().pipe(
       mergeMap(() => {
-        // Retry the original request after refreshing the token
         window.location.reload();
         return next.handle(request);
       }),

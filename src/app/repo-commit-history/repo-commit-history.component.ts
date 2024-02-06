@@ -11,12 +11,11 @@ import {Observable, switchMap} from "rxjs";
 })
 export class RepoCommitHistoryComponent implements OnInit {
   commits$!: Observable<RepoCommit[]>
-  private repoOwner: string = '';
-  private repoName: string = '';
+  repoOwner: string = '';
+  repoName: string = '';
   constructor(private route: ActivatedRoute, private userService: UserService, private router: Router) {}
 
   ngOnInit(): void {
-    // Use switchMap to handle the nested observables
     this.commits$ = this.route.params
       .pipe(
         switchMap((params) => {
@@ -33,6 +32,6 @@ export class RepoCommitHistoryComponent implements OnInit {
   }
 
   navigateToCommitDetails(sha: string) {
-    this.router.navigateByUrl(`/repository/${this.repoOwner}/${this.repoName}/commits/${sha}`).then()
+    this.router.navigateByUrl(`/repository/${this.repoOwner}/${this.repoName}/commits/${sha}`)
   }
 }

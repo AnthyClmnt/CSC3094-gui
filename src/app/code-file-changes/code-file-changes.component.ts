@@ -7,8 +7,8 @@ import {AccordionComponent} from "../shared/accordion-component/accordion.compon
 
 @Component({
   selector: 'codeChanges',
-  templateUrl: 'codeFileChanges.component.html',
-  styleUrls: ['codeFileChanges.component.scss'],
+  templateUrl: 'code-file-changes.component.html',
+  styleUrls: ['code-file-changes.component.scss'],
 })
 export class CodeFileChangesComponent implements OnInit {
   @ViewChildren(AccordionComponent) accordions!: QueryList<AccordionComponent>;
