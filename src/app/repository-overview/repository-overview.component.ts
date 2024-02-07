@@ -1,7 +1,7 @@
 import {Component, OnInit} from "@angular/core";
 import {ActivatedRoute, Router} from "@angular/router";
 import {UserService} from "../services/user-service";
-import {Observable, of, switchMap} from "rxjs";
+import {Observable, of, switchMap, take} from "rxjs";
 import {ChartOptions, ChartType} from "chart.js";
 
 @Component({
@@ -28,19 +28,17 @@ export class RepositoryOverviewComponent implements OnInit {
   constructor(private route: ActivatedRoute, private userService: UserService, private router: Router) {}
 
   ngOnInit(): void {
-    // Use switchMap to handle the nested observables
     this.repoOverview$ = this.route.params
       .pipe(
         switchMap((params) => {
           if (!params['repoOwner'] || !params['repoName']) {
-            this.router.navigateByUrl('/').then()
+            this.router.navigateByUrl('/')
             return of(null);
           }
 
           this.repoOwner = params['repoOwner'];
           this.repoName = params['repoName'];
 
-          // Call your service function and return the observable
           return this.userService.getRepoOverview({
             repoOwner: this.repoOwner,
             repoName: this.repoName
@@ -96,10 +94,10 @@ export class RepositoryOverviewComponent implements OnInit {
   }
 
   navigateToCommitDetails(sha: string) {
-    this.router.navigateByUrl(`/repository/${this.repoOwner}/${this.repoName}/commits/${sha}`).then()
+    this.router.navigateByUrl(`/repository/${this.repoOwner}/${this.repoName}/commits/${sha}`)
   }
 
   navigateToAllCommits() {
-    this.router.navigateByUrl(`/repository/${this.repoOwner}/${this.repoName}/commits`).then()
+    this.router.navigateByUrl(`/repository/${this.repoOwner}/${this.repoName}/commits`)
   }
 }

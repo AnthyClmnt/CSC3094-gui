@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {ActivatedRoute, convertToParamMap, Router} from '@angular/router';
 import { of } from 'rxjs';
@@ -10,12 +10,20 @@ describe('RepositoryOverviewComponent', () => {
   let component: RepositoryOverviewComponent;
   let fixture: ComponentFixture<RepositoryOverviewComponent>;
   let mockUserService: jasmine.SpyObj<UserService>;
-  let mockRouter: Router;
-
-  const mockRepoOwner = 'owner';
-  const mockRepoName = 'repo';
+  let mockActivatedRoute: any;
+  let mockRouter: any;
 
   beforeEach(async () => {
+    mockUserService = jasmine.createSpyObj('UserService', ['getRepoOverview']);
+
+    mockActivatedRoute = {
+      params: of({ repoOwner: 'owner', repoName: 'repo' })
+    };
+
+    mockRouter = {
+      navigateByUrl: jasmine.createSpy('navigateByUrl')
+    };
+
     mockUserService = jasmine.createSpyObj('UserService', ['getRepoOverview']);
 
     await TestBed.configureTestingModule({
@@ -23,7 +31,8 @@ describe('RepositoryOverviewComponent', () => {
       imports: [RouterTestingModule],
       providers: [
         { provide: UserService, useValue: mockUserService },
-        { provide: ActivatedRoute, useValue: { params: of(convertToParamMap({ repoOwner: mockRepoOwner, repoName: mockRepoName })) } }
+        { provide: Router, useValue: mockRouter },
+        { provide: ActivatedRoute, useValue: mockActivatedRoute },
       ]
     })
       .compileComponents();
@@ -34,6 +43,7 @@ describe('RepositoryOverviewComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(RepositoryOverviewComponent);
     component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
   it('should create', () => {
@@ -78,18 +88,37 @@ describe('RepositoryOverviewComponent', () => {
 
   it('should navigate to commit details', () => {
     const mockSha = 'sha1';
-    const routerSpy = spyOn(mockRouter, 'navigateByUrl').and.returnValue(Promise.resolve(true));
 
     component.navigateToCommitDetails(mockSha);
 
-    expect(routerSpy).toHaveBeenCalledWith(`/repository/${component.repoOwner}/${component.repoName}/commits/${mockSha}`);
+    expect(mockRouter.navigateByUrl).toHaveBeenCalledWith(`/repository/${component.repoOwner}/${component.repoName}/commits/${mockSha}`);
   });
 
   it('should navigate to all commits', () => {
-    const routerSpy = spyOn(mockRouter, 'navigateByUrl').and.returnValue(Promise.resolve(true));
-
     component.navigateToAllCommits();
 
-    expect(routerSpy).toHaveBeenCalledWith(`/repository/${component.repoOwner}/${component.repoName}/commits`);
+    expect(mockRouter.navigateByUrl).toHaveBeenCalledWith(`/repository/${component.repoOwner}/${component.repoName}/commits`);
   });
+
+  it('should handle Init method correctly depending on if route parameters are provided', fakeAsync(() => {
+    mockActivatedRoute.params = of({});
+    component.ngOnInit();
+    tick();
+
+    expect(mockRouter.navigateByUrl).not.toHaveBeenCalled();
+    expect(component.repoOverview$).toBeDefined();
+    component.repoOverview$.subscribe(repoOverview => {
+      expect(repoOverview).toBeNull();
+    });
+
+    mockActivatedRoute.params = of({});
+    component.ngOnInit();
+    tick();
+
+    expect(mockRouter.navigateByUrl).toHaveBeenCalledWith('/');
+    expect(component.repoOverview$).toBeDefined();
+    component.repoOverview$.subscribe(repoOverview => {
+      expect(repoOverview).toBeNull();
+    });
+  }));
 });

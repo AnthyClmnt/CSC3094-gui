@@ -1,19 +1,25 @@
-import { TestBed } from '@angular/core/testing';
+import {fakeAsync, TestBed, tick} from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { Token, UserLogin, UserRegistration } from '../shared/openapi';
 import {AuthService} from "./auth-service";
+import {Router} from "@angular/router";
+import {LoadingService} from "./loading.service";
 
 describe('AuthService', () => {
   let service: AuthService;
   let httpMock: HttpTestingController;
+  let router: Router;
+  let loadingService: LoadingService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [AuthService]
+      providers: [AuthService, LoadingService]
     });
     service = TestBed.inject(AuthService);
     httpMock = TestBed.inject(HttpTestingController);
+    router = TestBed.inject(Router);
+    loadingService = TestBed.inject(LoadingService);
   });
 
   afterEach(() => {
@@ -67,9 +73,11 @@ describe('AuthService', () => {
     req.flush(mockToken);
   });
 
-  it('should logout', () => {
-    spyOn(service['loadingService'], 'setLoading');
+  it('should logout', fakeAsync(() => {
     spyOn(sessionStorage, 'removeItem');
+    spyOn(loadingService, 'setLoading');
+    spyOn(loadingService, 'deactivateLoading');
+    spyOn(router, 'navigateByUrl');
 
     service.logout();
 
@@ -79,7 +87,12 @@ describe('AuthService', () => {
       overlay: true
     });
     expect(sessionStorage.removeItem).toHaveBeenCalledWith('accessToken');
-  });
+
+    tick(500);
+
+    expect(service['loadingService'].deactivateLoading).toHaveBeenCalled();
+    expect(router.navigateByUrl).toHaveBeenCalledWith('/login');
+  }));
 
   it('should return false if no token in storage', () => {
     spyOn(sessionStorage, 'getItem').and.returnValue(null);
@@ -141,6 +154,23 @@ describe('AuthService', () => {
 
     spyOn(sessionStorage, 'getItem').and.returnValue(mockToken);
     service['cachedResponses']['githubConnected'] = { data: mockResponse, timestamp: Date.now() - 60000 };
+
+    service.isGithubConnected().subscribe(isConnected => {
+      expect(isConnected).toBe(mockResponse);
+    });
+
+    const req = httpMock.expectOne('http://localhost:8000/auth/validate-connection');
+    expect(req.request.method).toBe('POST');
+    req.flush(mockResponse);
+  });
+
+  it('should check if GitHub is connected with api call because cache has been cleared', () => {
+    const mockToken = 'mock-access-token';
+    const mockResponse = true;
+
+    spyOn(sessionStorage, 'getItem').and.returnValue(mockToken);
+    service['cachedResponses']['githubConnected'] = { data: mockResponse, timestamp: Date.now() };
+    service.clearCache('githubConnected');
 
     service.isGithubConnected().subscribe(isConnected => {
       expect(isConnected).toBe(mockResponse);

@@ -8,7 +8,7 @@ section {
   height: 100%;
 }
 
-button {
+a {
   padding: .5em 4em;
   border: 1px solid lightgray;
   border-radius: 10px;
@@ -28,7 +28,7 @@ button {
   }
 }
 
-button:hover {
+a:hover {
   border-color: #6855E0;
   color: #6855E0;
 }

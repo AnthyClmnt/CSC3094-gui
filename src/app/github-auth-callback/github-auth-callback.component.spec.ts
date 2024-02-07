@@ -5,6 +5,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { LoadingService } from '../services/loading.service';
 import { UserService } from '../services/user-service';
 import {BehaviorSubject, of} from 'rxjs';
+import {AuthService} from "../services/auth-service";
 
 describe('GithubAuthCallbackComponent', () => {
   let component: GithubAuthCallbackComponent;
@@ -13,6 +14,7 @@ describe('GithubAuthCallbackComponent', () => {
   let mockRouter: any;
   let mockLoadingService: any;
   let mockUserService: any;
+  let mockAuthService: any;
 
   beforeEach(async () => {
     mockActivatedRoute = new BehaviorSubject<any>({ code: 'testCode' });
@@ -30,6 +32,11 @@ describe('GithubAuthCallbackComponent', () => {
       connectGitHub: jasmine.createSpy('connectGitHub').and.returnValue(of({}))
     };
 
+    mockAuthService = {
+      getToken: jasmine.createSpy('getToken'),
+      clearCache: jasmine.createSpy('clearCache')
+    };
+
     await TestBed.configureTestingModule({
       declarations: [GithubAuthCallbackComponent],
       imports: [HttpClientTestingModule],
@@ -37,7 +44,8 @@ describe('GithubAuthCallbackComponent', () => {
         { provide: ActivatedRoute, useValue: { queryParams: mockActivatedRoute } },
         { provide: Router, useValue: mockRouter },
         { provide: LoadingService, useValue: mockLoadingService },
-        { provide: UserService, useValue: mockUserService }
+        { provide: UserService, useValue: mockUserService },
+        { provide: AuthService, useValue: mockAuthService }
       ]
     }).compileComponents();
   });
@@ -64,13 +72,14 @@ describe('GithubAuthCallbackComponent', () => {
     });
   });
 
-  it('should call connectGitHub method and navigate to "/" after successful connection to GitHub', fakeAsync(() => {
+  it('should call connectGitHub method and navigate to "/dashboard" after successful connection to GitHub', fakeAsync(() => {
     mockActivatedRoute.next({code: '123'});
     component.ngOnInit();
     tick();
 
+    expect(mockAuthService.clearCache).toHaveBeenCalledWith('githubConnected');
     expect(mockUserService.connectGitHub).toHaveBeenCalledWith('123');
-    expect(mockRouter.navigateByUrl).toHaveBeenCalledWith('/');
+    expect(mockRouter.navigateByUrl).toHaveBeenCalledWith('/dashboard');
   }));
 
 

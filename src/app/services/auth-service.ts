@@ -6,6 +6,7 @@ import {Observable, of, shareReplay, throwError} from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
 import {Token, UserLogin, UserRegistration} from "../shared/openapi";
 import {LoadingService} from "./loading.service";
+import {Router} from "@angular/router";
 
 export interface CachedResponse {
   data: any;
@@ -19,10 +20,13 @@ export class AuthService {
   private apiUrl = 'http://localhost:8000';
   private accessTokenKey = 'accessToken';
   private refreshTokenKey = 'refreshToken';
-
   private cachedResponses: { [key: string]: CachedResponse } = {};
 
-  constructor(private http: HttpClient, private loadingService: LoadingService) {}
+  constructor(private http: HttpClient, private loadingService: LoadingService, private router: Router) {}
+
+  public clearCache(key: string): void {
+    delete this.cachedResponses[key];
+  }
 
   login(email: string, password: string): Observable<Token> {
     const credentials: UserLogin = { email, password };
@@ -71,10 +75,11 @@ export class AuthService {
       overlay: true
     });
     sessionStorage.removeItem(this.accessTokenKey);
-    setTimeout(() =>{
-      window.location.reload();
+    setTimeout(() => {
+      this.clearCache('isAccessTokenValid')
+      this.loadingService.deactivateLoading();
+      this.router.navigateByUrl('/login')
     }, 500)
-
   }
 
   isAuthenticated(): Observable<boolean> {

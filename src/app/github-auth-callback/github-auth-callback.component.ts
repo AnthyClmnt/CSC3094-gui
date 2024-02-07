@@ -1,9 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {AuthService} from "../services/auth-service";
 import {LoadingService} from "../services/loading.service";
-import {take} from "rxjs";
 import {UserService} from "../services/user-service";
 
 @Component({
@@ -25,10 +24,10 @@ export class GithubAuthCallbackComponent implements OnInit {
 
       if (code) {
         this.userService.connectGitHub(code)
-          .pipe(take(1))
           .subscribe(() => {
+            this.authService.clearCache('githubConnected');
             this.loadingService.deactivateLoading();
-            this.router.navigateByUrl('/')
+            this.router.navigateByUrl('/dashboard')
           })
       }
       else {
