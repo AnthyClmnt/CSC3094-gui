@@ -13,6 +13,7 @@ import {UnAuthGuard} from "./shared/unAuth.guard";
 import {UnGithubGuard} from "./shared/unGithub.guard";
 import {NotFoundPageComponent} from "./not-found-page/not-found-page.component";
 import {RepositoryOverviewComponent} from "./repository-overview/repository-overview.component";
+import {SettingsPageComponent} from "./settings-page/settings-page.component";
 
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full'},
@@ -22,6 +23,8 @@ const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard, GithubGuard]},
   { path: 'github-connect', component: GithubConnectComponent, canActivate: [AuthGuard, UnGithubGuard]},
   { path: 'callback', component: GithubAuthCallbackComponent, canActivate: [AuthGuard, UnGithubGuard]},
+
+  { path: 'settings', component: SettingsPageComponent, canActivate: [AuthGuard]},
 
   { path: 'repository/:repoOwner/:repoName',
     canActivate: [AuthGuard, GithubGuard],

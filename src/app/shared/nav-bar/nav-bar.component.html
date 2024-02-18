@@ -22,7 +22,7 @@
     <a *ngIf="hideLinksOnGithubPages() && hideLinks()">
       <ng-icon name="heroShieldExclamation"></ng-icon>
     </a>
-    <a class="bottom">
+    <a class="bottom" [routerLink]="['/settings']" routerLinkActive="active">
       <ng-icon name="heroCog6Tooth"></ng-icon>
     </a>
     <a (click)="signOut()">

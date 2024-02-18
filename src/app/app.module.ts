@@ -30,6 +30,7 @@ import {UnGithubGuard} from "./shared/unGithub.guard";
 import {NotFoundPageComponent} from "./not-found-page/not-found-page.component";
 import {RepositoryOverviewComponent} from "./repository-overview/repository-overview.component";
 import { NgChartsModule } from 'ng2-charts';
+import { SettingsPageComponent } from './settings-page/settings-page.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { NgChartsModule } from 'ng2-charts';
     NotFoundPageComponent,
     AccordionComponent,
     RepositoryOverviewComponent,
+    SettingsPageComponent,
   ],
   imports: [
     BrowserModule,

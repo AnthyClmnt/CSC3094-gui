@@ -7,6 +7,7 @@ import { tap, catchError } from 'rxjs/operators';
 import {Token, UserLogin, UserRegistration} from "../shared/openapi";
 import {LoadingService} from "./loading.service";
 import {Router} from "@angular/router";
+import {API_URL} from "../shared/constants"
 
 export interface CachedResponse {
   data: any;
@@ -17,12 +18,14 @@ export interface CachedResponse {
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:8000';
+  private apiUrl: string;
   private accessTokenKey = 'accessToken';
   private refreshTokenKey = 'refreshToken';
   private cachedResponses: { [key: string]: CachedResponse } = {};
 
-  constructor(private http: HttpClient, private loadingService: LoadingService, private router: Router) {}
+  constructor(private http: HttpClient, private loadingService: LoadingService, private router: Router) {
+    this.apiUrl = API_URL;
+  }
 
   public clearCache(key: string): void {
     delete this.cachedResponses[key];

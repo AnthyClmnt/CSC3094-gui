@@ -4,15 +4,18 @@ import {Observable, of, shareReplay, take} from "rxjs";
 import {AuthService, CachedResponse} from "./auth-service";
 import {CommitDetails, GitHubRepo, RepoCommit, User} from "../shared/openapi";
 import {tap} from "rxjs/operators";
+import {API_URL} from "../shared/constants";
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  private apiUrl = 'http://localhost:8000';
+  private apiUrl: string;
   private cachedResponses: { [key: string]: CachedResponse } = {};
 
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(private http: HttpClient, private authService: AuthService) {
+    this.apiUrl = API_URL
+  }
 
 
   public connectGitHub(code: string) {
@@ -46,7 +49,7 @@ export class UserService {
       'Authorization': `Bearer ${this.authService.getToken()}`,
     });
 
-    return this.http.get<GitHubRepo[]>('http://localhost:8000/github/repos', {headers}).pipe(
+    return this.http.get<GitHubRepo[]>(`${this.apiUrl}/github/repos`, {headers}).pipe(
       shareReplay(1),
       tap((response) => {
         this.cachedResponses[cacheKey] = { data: response, timestamp: Date.now()}
@@ -60,7 +63,7 @@ export class UserService {
       'Authorization': `Bearer ${this.authService.getToken()}`,
     });
 
-    return this.http.get<RepoCommit[]>(`http://localhost:8000/github/commits?repoOwner=${params.repoOwner}&repoName=${params.repoName}`, {headers})
+    return this.http.get<RepoCommit[]>(`${this.apiUrl}/github/commits?repoOwner=${params.repoOwner}&repoName=${params.repoName}`, {headers})
   }
 
   public getRepoOverview(params: {repoOwner : string, repoName : string}): Observable<any> {
@@ -69,7 +72,7 @@ export class UserService {
       'Authorization': `Bearer ${this.authService.getToken()}`,
     });
 
-    return this.http.get<RepoCommit[]>(`http://localhost:8000/github/repo-overview?repoOwner=${params.repoOwner}&repoName=${params.repoName}`, {headers})
+    return this.http.get<RepoCommit[]>(`${this.apiUrl}/github/repo-overview?repoOwner=${params.repoOwner}&repoName=${params.repoName}`, {headers})
   }
 
   public getCommitDetails(params: {repoOwner : string, repoName : string, sha: string}): Observable<CommitDetails> {
@@ -78,6 +81,6 @@ export class UserService {
       'Authorization': `Bearer ${this.authService.getToken()}`,
     });
 
-    return this.http.get<CommitDetails>(`http://localhost:8000/github/commit/changes?repoOwner=${params.repoOwner}&repoName=${params.repoName}&sha=${params.sha}`, {headers})
+    return this.http.get<CommitDetails>(`${this.apiUrl}/github/commit/changes?repoOwner=${params.repoOwner}&repoName=${params.repoName}&sha=${params.sha}`, {headers})
   }
 }
