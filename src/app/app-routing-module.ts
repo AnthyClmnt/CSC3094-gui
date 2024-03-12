@@ -1,19 +1,19 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {GithubAuthCallbackComponent} from "./github-auth-callback/github-auth-callback.component";
-import {RegisterComponent} from "./register/register.component";
-import {LoginComponent} from "./login/login.component";
+import {GithubAuthCallbackComponent} from "./components/pages/github-auth-callback/github-auth-callback.component";
+import {RegisterComponent} from "./components/pages/register/register.component";
+import {LoginComponent} from "./components/pages/login/login.component";
 import {AuthGuard} from "./shared/auth.guard";
-import {DashboardComponent} from "./dashboard/dashboard.component";
-import {CodeFileChangesComponent} from "./code-file-changes/code-file-changes.component";
-import {RepoCommitHistoryComponent} from "./repo-commit-history/repo-commit-history.component";
-import {GithubConnectComponent} from "./github-connect/github-connect.component";
+import {DashboardComponent} from "./components/pages/dashboard/dashboard.component";
+import {CodeFileChangesComponent} from "./components/pages/code-file-changes/code-file-changes.component";
+import {RepoCommitHistoryComponent} from "./components/pages/repo-commit-history/repo-commit-history.component";
+import {GithubConnectComponent} from "./components/pages/github-connect/github-connect.component";
 import {GithubGuard} from "./shared/github.guard";
 import {UnAuthGuard} from "./shared/unAuth.guard";
 import {UnGithubGuard} from "./shared/unGithub.guard";
-import {NotFoundPageComponent} from "./not-found-page/not-found-page.component";
-import {RepositoryOverviewComponent} from "./repository-overview/repository-overview.component";
-import {SettingsPageComponent} from "./settings-page/settings-page.component";
+import {NotFoundPageComponent} from "./components/pages/not-found-page/not-found-page.component";
+import {RepositoryOverviewComponent} from "./components/pages/repository-overview/repository-overview.component";
+import {SettingsPageComponent} from "./components/pages/settings-page/settings-page.component";
 
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full'},

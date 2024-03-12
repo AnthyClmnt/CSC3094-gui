@@ -1,0 +1,13 @@
+<section *ngIf="userInfo$ | async as userInfo;">
+  <ng-container *ngFor="let segment of currentRouteSegments; let i = index">
+    <span>
+      <a *ngIf="i !== currentRouteSegments.length - 1" routerLink="{{segment.link}}">{{ segment.displayText }}</a>
+      <h4 *ngIf="i == currentRouteSegments.length - 1">{{ segment.displayText }}</h4>
+    </span>
+    <span *ngIf="i !== currentRouteSegments.length - 1">
+      <p>></p>
+    </span>
+  </ng-container>
+
+  <p>{{ userInfo.email }}</p>
+</section>

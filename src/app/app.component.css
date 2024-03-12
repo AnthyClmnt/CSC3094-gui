@@ -4,6 +4,7 @@
   "navbar appbar"
   "navbar content";
   grid-template-columns: auto 1fr;
+  grid-template-rows: auto 1fr;
   overflow-y: hidden;
 }
 
@@ -13,7 +14,8 @@
 }
 
 .outlet-height {
-  height: calc(100vh - 55px);
+  height: calc(100vh - 60px);
+  background-color: whitesmoke;
 }
 
 nav-bar {
@@ -22,4 +24,5 @@ nav-bar {
 
 app-bar {
   grid-area: appbar;
+  height: 60px;
 }

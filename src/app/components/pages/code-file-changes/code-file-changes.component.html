@@ -1,0 +1,66 @@
+<section *ngIf="commitData$ | async as commitData; else loadingTemplate">
+  <div class="header">
+    <h2>{{commitData.commit.message}}</h2>
+    <div>
+      <b>{{commitData.commit.author.name}}</b>
+      <p>{{commitData.commit.author.date | date : 'dd MMM YYYY, h:mm a '}}</p>
+    </div>
+
+    <div class="changes-box">
+      <p>
+        <b>{{commitData.files.length}}</b> file changes
+        <br>
+        <b>{{commitData.stats.total}}</b> changes:
+        +<b>{{commitData.stats.additions}}</b> additions,
+        -<b>{{commitData.stats.deletions}}</b> deletions
+      </p>
+    </div>
+  </div>
+
+  <div class="code-container">
+    <div class="controls-container">
+      <search [list]="commitData.files" [searchAttributes]="['filename']" (searchResult)="onSearchResult($event)"></search>
+      <button (click)="toggleAll()">
+        <h4>Toggle All</h4>
+        <ng-icon *ngIf="!allClosed" name="heroChevronDown"></ng-icon>
+        <ng-icon *ngIf="allClosed" name="heroChevronUp"></ng-icon>
+      </button>
+    </div>
+
+    <accordion class="file-container" *ngFor="let file of filteredFiles">
+      <div class="accordion-title">
+        <div class="doc-header">
+          <ng-icon name="heroDocument"></ng-icon>
+          <h4>{{file.filename}}</h4>
+        </div>
+
+        <div *ngIf="file.patch" class="changes-box">
+          <div *ngFor="let _ of getRange(file.additions)" class="added box"></div>
+          <div *ngFor="let _ of getRange(file.deletions)" class="removed box"></div>
+          <p class="box-text">
+            <b>{{file.changes}}</b> changes:
+            +<b>{{file.additions}}</b> additions,
+            -<b>{{file.deletions}}</b> deletions
+          </p>
+        </div>
+      </div>
+
+      <div class="accordion-content">
+        <pre class="pre" *ngIf="file.patch">
+          <div *ngFor="let line of parsePatch(file.patch)" class="code-line" [ngClass]="{ 'added': line.added, 'removed': line.removed }">
+            <span class="line-number">{{ line.lineNumber !== null ? line.lineNumber : '' }}</span>
+            <span class="line-text">{{ line.text }}</span>
+          </div>
+        </pre>
+
+        <div class="pre pre-empty" *ngIf="!file.patch">
+          <p>Empty file.</p>
+        </div>
+      </div>
+    </accordion>
+  </div>
+</section>
+
+<ng-template #loadingTemplate>
+  <loading-spinner text="Loading File Changes..."/>
+</ng-template>

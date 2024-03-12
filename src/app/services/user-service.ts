@@ -57,6 +57,15 @@ export class UserService {
     )
   }
 
+  public syncRepoAnalysis(params: {repoOwner : string, repoName : string}) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.authService.getToken()}`,
+    });
+
+    return this.http.get<any>(`${this.apiUrl}/github/update-repo?repoOwner=${params.repoOwner}&repoName=${params.repoName}`, {headers})
+  }
+
   public getCommits(params: {repoOwner : string, repoName : string}): Observable<RepoCommit[]> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',

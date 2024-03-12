@@ -1,0 +1,189 @@
+section {
+  display: flex;
+  flex-direction: column;
+  margin: 2em;
+  gap: 2em;
+}
+
+.repository-about {
+  flex-direction: row !important;
+  align-items: start !important;
+  width: 100% !important;
+
+  span {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1em;
+  }
+
+  .sync-container {
+    margin-left: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1em;
+    align-self: center;
+
+    button {
+      padding: .5em 2em;
+    }
+
+    .error-icon {
+      font-size: 1.25rem;
+      color: #A9363C;
+    }
+  }
+
+  a {
+    cursor: pointer;
+    color: #24292e;
+    text-decoration: underline #24292e;
+  }
+
+  a:hover {
+    border-color: #6855E0;
+    color: #6855E0;
+  }
+}
+
+.metric-overview {
+  flex-direction: row;
+  margin: 0;
+
+  .container div {
+    margin-left: 0;
+    border: 3px solid;
+    font-size: 2rem;
+  }
+}
+
+.grid-section {
+  display: flex;
+  flex-direction: row;
+  margin: 0;
+}
+
+img {
+  width: 50px;
+  border-radius: 999px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  height: fit-content;
+  align-items: center;
+  gap: 1em;
+
+  background-color: white;
+  border-radius: 10px;
+  padding: 1em 2em;
+}
+
+.complexity-container {
+  align-items: start;
+}
+
+.complexity-indicator {
+  display: flex;
+  flex-direction: row;
+  gap: 2em;
+  align-items: center;
+  width: 100%;
+}
+
+.moderate, .high, .very-high, .low {
+  margin-left: auto;
+  width: fit-content;
+  height: fit-content;
+  padding: .2em .75em;
+  border-radius: 999px;
+  font-weight: 600;
+  border: 1px solid;
+}
+
+.moderate {
+  background-color: #fff4db;
+  color: #FEC134;
+  border-color: #FEC134;
+}
+
+.high {
+  background-color: #ffd7bf;
+  color: #FE7523;
+  border-color: #FE7523;
+}
+
+.very-high {
+  background-color: #ffbbbd;
+  color: #A9363C;
+  border-color: #A9363C;
+}
+
+.low {
+  background-color: #dbffc3;
+  color: #719752;
+  border-color: #719752;
+}
+
+table {
+  ng-icon {
+    font-size: 1.25rem;
+    color: #A9363C;
+  }
+
+  border-collapse: collapse;
+
+  thead tr {
+    text-align: left;
+  }
+
+  th, td {
+    padding: 12px 1em;
+  }
+
+  tr:nth-child(even) {
+    background-color: #fafafa;
+  }
+
+  thead tr {
+    border-bottom: 1px solid lightgray;
+  }
+
+  tbody tr {
+    transition: all .2s ease;
+    cursor: pointer;
+  }
+
+  tbody td {
+    height: 60px;
+  }
+
+  tbody tr:hover {
+    background-color: whitesmoke;
+  }
+
+  .max-content {
+    max-width: 40ch;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  a {
+    text-decoration: none;
+    color: #24292e;
+
+    h1 {
+      font-weight: 400;
+    }
+  }
+}
+
+
+@media only screen and (max-width: 1700px) {
+  .grid-section {
+    flex-direction: column;
+  }
+}

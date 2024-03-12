@@ -1,0 +1,43 @@
+section {
+  background-color: white;
+  position: relative;
+  z-index: 100;
+  color: #24292e;
+  display: inline-flex;
+  gap: 1em;
+  align-items: center;
+  width: 100%;
+  padding: 1em 2em .5em 2em;
+
+  ng-icon {
+    font-size: 1.5em;
+    margin: auto 0;
+  }
+
+  p:last-of-type {
+    margin-left: auto;
+  }
+
+  span {
+    a {
+      color: #6855E0;
+      cursor: pointer;
+    }
+
+    a, h4 {
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+  }
+
+  a:hover {
+    text-decoration: underline #6855E0 !important;
+  }
+}
+
+@media only screen and (max-width: 700px) {
+  p:last-of-type {
+    display: none;
+  }
+}

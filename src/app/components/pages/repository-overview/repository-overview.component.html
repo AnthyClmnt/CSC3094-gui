@@ -1,0 +1,92 @@
+<section *ngIf="repoOverview$ | async as overview; else loadingTemplate">
+  <div class="repository-about container">
+    <span>
+      <img [src]="overview.owner_url">
+      <a [href]="overview.githubLink" target="_blank">
+        <h3>{{overview.title}}</h3>
+      </a>
+      <p>{{overview.description}}</p>
+    </span>
+
+    <div class="sync-container">
+      <ng-icon class="error-icon" *ngIf="showUpdatePush(overview.lastAnalysed)" name="heroExclamationTriangle"></ng-icon>
+      <p>Last Analysed: <b>{{overview.lastAnalysed ? (overview.lastAnalysed | date : 'dd MMM YYYY, HH:mm') : 'Never'}}</b></p>
+      <button (click)="syncRepoClick()">
+        Sync
+        <ng-icon name="heroArrowPath"></ng-icon>
+      </button>
+    </div>
+  </div>
+
+  <section class="metric-overview" *ngIf="overview.averageComplexity !== 0 && overview.averageCommentRatio != 0">
+    <div class="container">
+      <h4>Average Complexity</h4>
+      <div [ngClass]="overview.averageComplexityGradeClass">{{overview.averageComplexityGrade}}</div>
+      <h4>{{overview.averageComplexity}}</h4>
+    </div>
+
+    <div class="container">
+      <h4>Average Comment Ratio</h4>
+      <div [ngClass]="overview.averageCommentRatioClass">{{overview.averageCommentRatioGrade}}</div>
+      <h4>{{overview.averageCommentRatio}}</h4>
+    </div>
+  </section>
+
+  <section class="grid-section">
+    <div class="container complexity-container" *ngIf="overview.analysis.length != 0">
+      <h4>Cyclomatic Complexity Issues 🚧</h4>
+      <table>
+        <thead>
+        <tr>
+          <th></th>
+          <th>File Name</th>
+          <th>Author</th>
+          <th>Description</th>
+          <th>Grade</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let row of overview.analysis.slice(0, 5)" routerLink="/repository/{{repoOwner}}/{{repoName}}/commits/{{row.sha}}">
+          <td>
+            <ng-icon *ngIf="row.grade === 'F'" name="heroExclamationTriangle"></ng-icon>
+            <ng-icon *ngIf="row.grade !== 'F'"></ng-icon>
+          </td>
+          <td class="max-content">{{row.fileName}}</td>
+          <td>{{row.author}}</td>
+          <td>{{row.gradeText}}</td>
+          <td><div class="danger" [ngClass]="row.gradeClass">{{row.grade}}</div></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="container complexity-container" *ngIf="overview.analysis.length != 0">
+      <h4>Comments Ratio Issues 💬</h4>
+      <table>
+        <thead>
+        <tr>
+          <th></th>
+          <th>File Name</th>
+          <th>Author</th>
+          <th>Ratio</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let row of getCommentRatioOrder(overview.analysis)" routerLink="/repository/{{repoOwner}}/{{repoName}}/commits/{{row.sha}}">
+          <td>
+            <ng-icon *ngIf="row.loc_ratio <= 0.2" name="heroExclamationTriangle"></ng-icon>
+            <ng-icon *ngIf="row.loc_ratio > 0.2"></ng-icon>
+          </td>
+          <td class="max-content">{{row.fileName}}</td>
+          <td>{{row.author}}</td>
+          <td>{{row.loc_ratio}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</section>
+
+<ng-template #loadingTemplate>
+  <loading-spinner [text]="loadingText"/>
+</ng-template>

@@ -1,0 +1,46 @@
+<section>
+  <img (click)="navigateHome()" src="../../../../assets/logo.png" alt="logo">
+  <h2>GitGuard</h2>
+  <div class="links">
+    <a *ngIf="hideLinksOnGithubPages() && !hideLinks()" [routerLink]="['/dashboard']" routerLinkActive="active">
+      <ng-icon name="heroSquares2x2"></ng-icon>
+      <h4>Dashboard</h4>
+    </a>
+    <a *ngIf="hideLinksOnGithubPages() && hideLinks()" [routerLink]="['/dashboard']" routerLinkActive="active">
+      <ng-icon name="heroArrowLeft"></ng-icon>
+      <h4>Exit Repo</h4>
+    </a>
+
+    <div *ngIf="hideLinksOnGithubPages() && hideLinks()" class="line-break"></div>
+
+    <a *ngIf="hideLinksOnGithubPages() && hideLinks()" routerLink="/repository/{{repoOwner}}/{{repoName}}" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">
+      <ng-icon name="heroChartBar"></ng-icon>
+      <h4>Overview</h4>
+    </a>
+    <a *ngIf="hideLinksOnGithubPages() && hideLinks()" routerLink="/repository/{{repoOwner}}/{{repoName}}/commits" routerLinkActive="active">
+      <ng-icon name="heroCodeBracket"></ng-icon>
+      <h4>Commits</h4>
+    </a>
+    <a *ngIf="hideLinksOnGithubPages() && hideLinks()">
+      <ng-icon name="heroBugAnt"></ng-icon>
+      <h4>Bugs</h4>
+    </a>
+    <a *ngIf="hideLinksOnGithubPages() && hideLinks()">
+      <ng-icon name="heroShieldExclamation"></ng-icon>
+      <h4>Issues</h4>
+    </a>
+    <a *ngIf="hideLinksOnGithubPages() && hideLinks()">
+      <ng-icon name="heroDocumentText"></ng-icon>
+      <h4>Reports</h4>
+    </a>
+
+    <a class="bottom" [routerLink]="['/settings']" routerLinkActive="active">
+      <ng-icon name="heroCog6Tooth"></ng-icon>
+      <h4>Settings</h4>
+    </a>
+    <a (click)="signOut()">
+      <ng-icon name="heroArrowLeftOnRectangle"></ng-icon>
+      <h4>Log Out</h4>
+    </a>
+  </div>
+</section>
