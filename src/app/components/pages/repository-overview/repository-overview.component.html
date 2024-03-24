@@ -18,68 +18,124 @@
     </div>
   </div>
 
-  <section class="metric-overview" *ngIf="overview.averageComplexity !== 0 && overview.averageCommentRatio != 0">
+  <section class="metric-overview">
     <div class="container">
       <h4>Average Complexity</h4>
       <div [ngClass]="overview.averageComplexityGradeClass">{{overview.averageComplexityGrade}}</div>
-      <h4>{{overview.averageComplexity}}</h4>
+      <p>{{overview.averageComplexity}}</p>
     </div>
 
     <div class="container">
       <h4>Average Comment Ratio</h4>
       <div [ngClass]="overview.averageCommentRatioClass">{{overview.averageCommentRatioGrade}}</div>
-      <h4>{{overview.averageCommentRatio}}</h4>
+      <p>{{overview.averageCommentRatio}}</p>
+    </div>
+
+    <div class="container">
+      <h4>Average Maintainability</h4>
+      <div [ngClass]="overview.averageMaintainabilityClass">{{overview.averageMaintainabilityGrade}}</div>
+      <p>{{overview.averageMaintainability}}</p>
     </div>
   </section>
 
   <section class="grid-section">
     <div class="container complexity-container" *ngIf="overview.analysis.length != 0">
-      <h4>Cyclomatic Complexity Issues 🚧</h4>
+      <span class="metric-header">
+        <h4>Highest Complexity Commits 🚧</h4>
+        <button [routerLink]="['/repository', repoOwner, repoName, 'issues']">
+          view all
+          <ng-icon name="heroArrowRight"></ng-icon>
+        </button>
+      </span>
+
       <table>
         <thead>
         <tr>
           <th></th>
           <th>File Name</th>
           <th>Author</th>
-          <th>Description</th>
-          <th>Grade</th>
+          <th class="center">Complexity</th>
+          <th class="center">Grade</th>
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let row of overview.analysis.slice(0, 5)" routerLink="/repository/{{repoOwner}}/{{repoName}}/commits/{{row.sha}}">
-          <td>
+        <tr *ngFor="let row of overview.analysis.slice(0, 5)" (click)="test(row)">
+          <td class="center">
             <ng-icon *ngIf="row.grade === 'F'" name="heroExclamationTriangle"></ng-icon>
             <ng-icon *ngIf="row.grade !== 'F'"></ng-icon>
           </td>
           <td class="max-content">{{row.fileName}}</td>
           <td>{{row.author}}</td>
-          <td>{{row.gradeText}}</td>
-          <td><div class="danger" [ngClass]="row.gradeClass">{{row.grade}}</div></td>
+          <td class="center">{{row.complexity}}</td>
+          <td><div [ngClass]="row.gradeClass">{{row.grade}}</div></td>
         </tr>
         </tbody>
       </table>
     </div>
 
     <div class="container complexity-container" *ngIf="overview.analysis.length != 0">
-      <h4>Comments Ratio Issues 💬</h4>
+      <span class="metric-header">
+        <h4>Lowest Comment Ratio Commits 💬</h4>
+        <button [routerLink]="['/repository', repoOwner, repoName, 'issues']">
+          view all
+          <ng-icon name="heroArrowRight"></ng-icon>
+        </button>
+      </span>
+
       <table>
         <thead>
         <tr>
           <th></th>
           <th>File Name</th>
           <th>Author</th>
-          <th>Ratio</th>
+          <th class="center">Ratio</th>
+          <th class="center">Grade</th>
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let row of getCommentRatioOrder(overview.analysis)" routerLink="/repository/{{repoOwner}}/{{repoName}}/commits/{{row.sha}}">
-          <td>
-            <ng-icon *ngIf="row.loc_ratio <= 0.2" name="heroExclamationTriangle"></ng-icon>
-            <ng-icon *ngIf="row.loc_ratio > 0.2"></ng-icon>
+        <tr *ngFor="let row of getCommentRatioOrder(overview.analysis)" (click)="test(row)">
+          <td class="center">
+            <ng-icon *ngIf="row.commentGrade === 'F'" name="heroExclamationTriangle"></ng-icon>
+            <ng-icon *ngIf="row.commentGrade !== 'F'"></ng-icon>
           </td>
           <td class="max-content">{{row.fileName}}</td>
           <td>{{row.author}}</td>
-          <td>{{row.loc_ratio}}</td>
+          <td class="center">{{row.ltc_ratio}}</td>
+          <td><div [ngClass]="row.commentGradeClass">{{row.commentGrade}}</div></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="container complexity-container" *ngIf="overview.analysis.length != 0">
+      <span class="metric-header">
+        <h4>Worst Maintainability 🔧</h4>
+        <button [routerLink]="['/repository', repoOwner, repoName, 'issues']">
+          view all
+          <ng-icon name="heroArrowRight"></ng-icon>
+        </button>
+      </span>
+
+      <table>
+        <thead>
+        <tr>
+          <th></th>
+          <th>File Name</th>
+          <th>Author</th>
+          <th class="center">Maintainability</th>
+          <th class="center">Grade</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let row of getMaintainabilityOrder(overview.analysis)" (click)="test(row)">
+          <td class="center">
+            <ng-icon *ngIf="row.maintainabilityGrade === 'F'" name="heroExclamationTriangle"></ng-icon>
+            <ng-icon *ngIf="row.maintainabilityGrade !== 'F'"></ng-icon>
+          </td>
+          <td class="max-content">{{row.fileName}}</td>
+          <td>{{row.author}}</td>
+          <td class="center">{{row.maintain_index}}</td>
+          <td><div [ngClass]="row.maintainabilityGradeClass">{{row.maintainabilityGrade}}</div></td>
         </tr>
         </tbody>
       </table>
@@ -90,3 +146,53 @@
 <ng-template #loadingTemplate>
   <loading-spinner [text]="loadingText"/>
 </ng-template>
+
+<app-sidebar (isOpenChange)="clearData()">
+  <div class="sidebar-content" *ngIf="sideBarData; else loadingTemplate">
+    <div class="doc-header">
+      <ng-icon name="heroDocument"></ng-icon>
+      <h3>{{sideBarData.filename}}</h3>
+      <p>- {{sideBarData.author}}</p>
+    </div>
+
+    <div class="changes-box">
+      <div *ngFor="let _ of getRange(sideBarData.additions)" class="added box"></div>
+      <div *ngFor="let _ of getRange(sideBarData.deletions)" class="removed box"></div>
+      <p class="box-text">
+        <b>{{sideBarData.changes}}</b> changes:
+        +<b>{{sideBarData.additions}}</b> additions,
+        -<b>{{sideBarData.deletions}}</b> deletions
+      </p>
+    </div>
+
+    <section class="metric-overview" *ngIf="sideBarData.complexity != null">
+      <div class="container">
+        <h4>Complexity</h4>
+        <div [ngClass]="sideBarData.gradeClass">{{sideBarData.grade}}</div>
+      </div>
+
+      <div class="container" *ngIf="sideBarData.ltc_ratio != null">
+        <h4>Comment Ratio</h4>
+        <div [ngClass]="sideBarData.commentGradeClass">{{sideBarData.commentGrade}}</div>
+      </div>
+
+      <div class="container">
+        <h4>Maintainability</h4>
+        <div [ngClass]="sideBarData.maintainabilityGradeClass">{{sideBarData.maintainabilityGrade}}</div>
+      </div>
+    </section>
+
+    <div class="changes-box">
+      <button (click)="confirmResolve()" class="b-danger">resolve issue</button>
+    </div>
+  </div>
+
+  <div style="height: 100%; overflow-y: auto;">
+    <pre class="pre" *ngIf="sideBarData?.patch">
+      <div *ngFor="let line of parsePatch(sideBarData?.patch)" class="code-line" [ngClass]="{ 'added': line.added, 'removed': line.removed }">
+        <span class="line-number">{{ line.lineNumber !== null ? line.lineNumber : '' }}</span>
+        <span class="line-text">{{ line.text }}</span>
+      </div>
+    </pre>
+  </div>
+</app-sidebar>

@@ -11,11 +11,11 @@ section {
 }
 
 .links {
-  padding: 2.5em 0;
+  padding: 2.5em .8em;
   height: 100%;
   display: flex;
   flex-direction: column;
-  gap: .25em;
+  gap: 1em;
 }
 
 .bottom {
@@ -25,28 +25,25 @@ section {
 a {
   display: flex;
   text-decoration: none !important;
-  border-radius: 10px 0 0 10px;
-  padding: .75em 1.5em;
+  border-radius: 10px;
+  padding: .25em 1.25em;
   cursor: pointer;
   width: 100%;
   gap: 1em;
 }
 
-a:hover {
-  ng-icon, h4 {
-    color: #6855E0;
-  }
+a:hover:not(.active) {
+  background-color: #2b3748;
+  transition: .4s all ease;
+  box-shadow: 0 0 0 1px lightgray;
+
+/*  ng-icon, h4 {
+    color: #1C2433;
+  }*/
 }
 
 .active {
-  background-color: whitesmoke;
-  -webkit-box-shadow:inset -4px 0 0 0 whitesmoke;
-  -moz-box-shadow:inset -4px 0 0 0 whitesmoke;
-  box-shadow: -4px 0 0 0 whitesmoke inset;
-
-  ng-icon, h4 {
-    color: #6855E0;
-  }
+  background-color: #6855E0;
 }
 
 img {

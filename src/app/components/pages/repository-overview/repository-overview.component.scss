@@ -51,17 +51,28 @@ section {
   flex-direction: row;
   margin: 0;
 
-  .container div {
-    margin-left: 0;
-    border: 3px solid;
-    font-size: 2rem;
+  .container {
+    border: 1px solid lightgray;
+
+    div {
+      border: 2px solid;
+      font-size: 2rem;
+    }
   }
 }
 
 .grid-section {
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(750px, 1fr)); /* Responsive grid */
   margin: 0;
+
+  .container {
+    width: 100%;
+
+    table {
+      width: 100%;
+    }
+  }
 }
 
 img {
@@ -95,7 +106,7 @@ img {
 }
 
 .moderate, .high, .very-high, .low {
-  margin-left: auto;
+  margin: 0 auto;
   width: fit-content;
   height: fit-content;
   padding: .2em .75em;
@@ -128,62 +139,132 @@ img {
   border-color: #719752;
 }
 
-table {
-  ng-icon {
-    font-size: 1.25rem;
-    color: #A9363C;
-  }
+.metric-header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+  margin-bottom: .5em;
 
-  border-collapse: collapse;
-
-  thead tr {
-    text-align: left;
-  }
-
-  th, td {
-    padding: 12px 1em;
-  }
-
-  tr:nth-child(even) {
-    background-color: #fafafa;
-  }
-
-  thead tr {
-    border-bottom: 1px solid lightgray;
-  }
-
-  tbody tr {
-    transition: all .2s ease;
-    cursor: pointer;
-  }
-
-  tbody td {
-    height: 60px;
-  }
-
-  tbody tr:hover {
-    background-color: whitesmoke;
-  }
-
-  .max-content {
-    max-width: 40ch;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  a {
-    text-decoration: none;
-    color: #24292e;
-
-    h1 {
-      font-weight: 400;
-    }
+  button {
+    padding: 0.25em 1em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }
 
+.pre {
+  width: 100%;
+  background-color: white;
+  border: 1px solid lightgray;
+  border-radius: 10px;
+  height: fit-content;
+  user-select: none;
+}
 
-@media only screen and (max-width: 1700px) {
-  .grid-section {
-    flex-direction: column;
+.pre-empty {
+  padding: 1em;
+}
+
+.doc-header {
+  display: inline-flex;
+  align-items: center;
+  gap: .5em;
+}
+
+/* code-file-changes.component.scss */
+.code-line {
+  display: flex;
+  align-items: center;
+  margin-right: 1.5em;
+}
+
+.line-number {
+  display: inline-block;
+  width: 2em;
+  text-align: right;
+  margin-right: 1.5em;
+  color: #888;
+}
+
+.line-text {
+  padding-right: 1em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.added {
+  background-color: rgba(200, 247, 197, 0.50); /* Light green background for added lines */
+}
+
+.removed {
+  background-color: rgba(249, 192, 192, 0.50); /* Light red background for removed lines */
+}
+
+.box {
+  width: 15px;
+  height: 15px;
+}
+
+.code-container, .file-container {
+  display: flex;
+  flex-direction: column;
+  gap: .5em;
+}
+
+.code-container {
+  gap: 1em;
+}
+
+.file-container {
+  border-bottom: 1px solid lightgray;
+  padding-bottom: 1em;
+}
+
+.file-container:last-of-type {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.changes-box {
+  display: inline-flex;
+  align-items: center;
+  gap: .25em;
+
+  .added {
+    background-color: rgba(200, 247, 197);
+  }
+
+  .removed {
+    background-color: rgba(249, 192, 192);
+  }
+
+  .box-text {
+    margin-left: .5em;
+  }
+}
+
+.sidebar-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+
+  .metric-overview {
+    gap: .5em;
+
+    .container {
+      padding: .5em 1em 1em 1em;
+      border: 1px solid lightgray;
+      gap: .5em;
+
+      div {
+        font-size: 1.5em;
+      }
+
+      h4 {
+        font-weight: 500;
+      }
+    }
   }
 }

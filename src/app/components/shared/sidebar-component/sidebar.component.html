@@ -1,0 +1,9 @@
+<section>
+  <div *ngIf="isOpen" class="overlay"></div>
+
+  <div [@sidebarTrigger]="animationTriggered ? 'open' : 'close'" class="sidebar">
+    <ng-content></ng-content>
+
+    <button (click)="toggleSidebar()">Close</button>
+  </div>
+</section>

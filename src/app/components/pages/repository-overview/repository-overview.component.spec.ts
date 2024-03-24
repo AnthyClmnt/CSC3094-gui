@@ -5,6 +5,8 @@ import { of } from 'rxjs';
 import { RepositoryOverviewComponent } from './repository-overview.component';
 import { UserService } from '../../../services/user-service';
 import {LoadingComponent} from "../../shared/loading-component/loading-component.component";
+import {SidebarComponent} from "../../shared/sidebar-component/sidebar.component";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 describe('RepositoryOverviewComponent', () => {
   let component: RepositoryOverviewComponent;
@@ -27,8 +29,8 @@ describe('RepositoryOverviewComponent', () => {
     mockUserService = jasmine.createSpyObj('UserService', ['getRepoOverview']);
 
     await TestBed.configureTestingModule({
-      declarations: [RepositoryOverviewComponent, LoadingComponent],
-      imports: [RouterTestingModule],
+      declarations: [RepositoryOverviewComponent, LoadingComponent, SidebarComponent],
+      imports: [RouterTestingModule, BrowserAnimationsModule],
       providers: [
         { provide: UserService, useValue: mockUserService },
         { provide: Router, useValue: mockRouter },

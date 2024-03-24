@@ -14,6 +14,8 @@ import {UnGithubGuard} from "./shared/unGithub.guard";
 import {NotFoundPageComponent} from "./components/pages/not-found-page/not-found-page.component";
 import {RepositoryOverviewComponent} from "./components/pages/repository-overview/repository-overview.component";
 import {SettingsPageComponent} from "./components/pages/settings-page/settings-page.component";
+import {IssuesPageComponent} from "./components/pages/issues-page/issues-page.component";
+import {ReportPageComponent} from "./components/pages/report-page/report-page.component";
 
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full'},
@@ -32,6 +34,8 @@ const routes: Routes = [
       { path: '', component: RepositoryOverviewComponent},
       { path: 'commits', component: RepoCommitHistoryComponent},
       { path: 'commits/:sha', component: CodeFileChangesComponent},
+      { path: 'issues', component: IssuesPageComponent},
+      { path: 'reports', component: ReportPageComponent}
     ]
   },
 

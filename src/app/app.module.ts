@@ -16,7 +16,7 @@ import {DashboardComponent} from "./components/pages/dashboard/dashboard.compone
 import {UserService} from "./services/user-service";
 import {NavBarComponent} from "./components/shared/nav-bar/nav-bar.component";
 import {NgIconsModule} from "@ng-icons/core";
-import {heroBugAnt, heroChartBar, heroShieldExclamation, heroSquares2x2, heroCog6Tooth, heroArrowLeftOnRectangle, heroArrowRight, heroCodeBracket, heroMagnifyingGlass, heroFaceFrown, heroDocument, heroChevronDown, heroChevronUp, heroArrowLeft, heroArrowPath, heroExclamationTriangle, heroDocumentText, heroSun, heroMoon} from '@ng-icons/heroicons/outline'
+import {heroBugAnt, heroChartBar, heroShieldExclamation, heroSquares2x2, heroCog6Tooth, heroArrowLeftOnRectangle, heroArrowRight, heroCodeBracket, heroMagnifyingGlass, heroFaceFrown, heroDocument, heroChevronDown, heroChevronUp, heroArrowLeft, heroArrowPath, heroExclamationTriangle, heroDocumentText, heroTrash, heroEye, heroChevronLeft, heroChevronRight, heroChevronDoubleLeft, heroChevronDoubleRight} from '@ng-icons/heroicons/outline'
 import {CodeFileChangesComponent} from "./components/pages/code-file-changes/code-file-changes.component";
 import {RepoCommitHistoryComponent} from "./components/pages/repo-commit-history/repo-commit-history.component";
 import {AppBarComponent} from "./components/shared/app-bar/app-bar.component";
@@ -31,6 +31,11 @@ import {NotFoundPageComponent} from "./components/pages/not-found-page/not-found
 import {RepositoryOverviewComponent} from "./components/pages/repository-overview/repository-overview.component";
 import { NgChartsModule } from 'ng2-charts';
 import { SettingsPageComponent } from './components/pages/settings-page/settings-page.component';
+import {SidebarComponent} from "./components/shared/sidebar-component/sidebar.component";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {SidebarService} from "./services/sidebar.service";
+import { IssuesPageComponent } from './components/pages/issues-page/issues-page.component';
+import { ReportPageComponent } from './components/pages/report-page/report-page.component';
 
 @NgModule({
   declarations: [
@@ -50,17 +55,21 @@ import { SettingsPageComponent } from './components/pages/settings-page/settings
     AccordionComponent,
     RepositoryOverviewComponent,
     SettingsPageComponent,
+    SidebarComponent,
+    IssuesPageComponent,
+    ReportPageComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
     NgChartsModule,
     FormsModule,
     ReactiveFormsModule,
-    NgIconsModule.withIcons({ heroCog6Tooth, heroBugAnt, heroChartBar, heroShieldExclamation, heroSquares2x2, heroArrowLeftOnRectangle, heroArrowRight, heroCodeBracket, heroMagnifyingGlass, heroFaceFrown, heroDocument, heroChevronDown, heroChevronUp, heroArrowLeft, heroArrowPath, heroExclamationTriangle, heroDocumentText, heroSun, heroMoon}),
+    NgIconsModule.withIcons({ heroCog6Tooth, heroBugAnt, heroChartBar, heroShieldExclamation, heroSquares2x2, heroArrowLeftOnRectangle, heroArrowRight, heroCodeBracket, heroMagnifyingGlass, heroFaceFrown, heroDocument, heroChevronDown, heroChevronUp, heroArrowLeft, heroArrowPath, heroExclamationTriangle, heroDocumentText, heroTrash, heroEye, heroChevronLeft, heroChevronRight, heroChevronDoubleLeft, heroChevronDoubleRight}),
   ],
-  providers: [AuthService, AuthGuard, UnAuthGuard, GithubGuard, UnGithubGuard, UserService, LoadingService, { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }],
+  providers: [AuthService, AuthGuard, UnAuthGuard, GithubGuard, UnGithubGuard, UserService, LoadingService, SidebarService, { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

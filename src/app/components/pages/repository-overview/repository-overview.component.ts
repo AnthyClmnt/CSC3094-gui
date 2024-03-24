@@ -4,6 +4,7 @@ import {UserService} from "../../../services/user-service";
 import {Observable, of, switchMap} from "rxjs";
 import {ChartOptions, ChartType} from "chart.js";
 import {map, tap} from "rxjs/operators";
+import {SidebarService} from "../../../services/sidebar.service";
 
 @Component({
   selector: 'repo-overview',
@@ -27,8 +28,8 @@ export class RepositoryOverviewComponent implements OnInit {
     responsive: false,
   };
   public barChartType: ChartType = "bar";
-
-  constructor(private route: ActivatedRoute, private userService: UserService, private router: Router) {}
+  public sideBarData: any;
+  constructor(private route: ActivatedRoute, private userService: UserService, private router: Router, private sidebarService: SidebarService) {}
 
   ngOnInit(): void {
     this.repoOverview$ = this.route.params
@@ -72,8 +73,77 @@ export class RepositoryOverviewComponent implements OnInit {
   }
 
   public getCommentRatioOrder(x: any) {
-    const newArray = x.filter((obj : any) => obj.loc_ratio !== null && obj.loc_ratio !== 0);
-    return newArray.sort((a: any, b: any) => a.loc_ratio - b.loc_ratio).slice(0, 5);
+    const newArray = x.filter((obj : any) => obj.ltc_ratio !== null);
+    return newArray.sort((a: any, b: any) => a.ltc_ratio - b.ltc_ratio).slice(0, 5);
+  }
+
+  public getMaintainabilityOrder(x: any) {
+    const newArray = x.filter((obj : any) => obj.maintain_index !== null);
+    return newArray.sort((a: any, b: any) => b.maintain_index - a.maintain_index).slice(0, 5);
+  }
+
+  public test(rowData: any) {
+    this.userService.GetFileDetails({ repoOwner: this.repoOwner, repoName: this.repoName, sha: rowData.sha, fileName: rowData.fileName}).subscribe((x) => {
+      this.sideBarData = {...rowData, ...x};
+      console.log('data', this.sideBarData)
+    })
+
+    this.sidebarService.toggleSidebar();
+  }
+
+  public clearData() {
+    setTimeout(() => {
+      this.sideBarData = null;
+    }, 300)
+  }
+
+  getRange(count: number): any[] {
+    const result = Array.from({ length: count }, (_, index) => ({ index }));
+    return result.length > 5 ? result.slice(0, 5) : result
+  }
+
+  public parsePatch(patch: string): any[] {
+    const changes: { lineNumber: number | null; text: string; added: boolean; removed: boolean }[] = [];
+
+    const lines = patch.split('\n');
+    let lineNumber = 1;
+
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i];
+
+      if (line.startsWith('@@')) {
+        const match = line.match(/@@ -(\d+),\d+ \+(\d+),\d+ @@/);
+
+        if (match) {
+          lineNumber = parseInt(match[1]);
+
+          // Add the diff header line without assigning a line number
+          changes.push({ lineNumber: null, text: line, added: false, removed: false });
+
+          while (++i < lines.length && !lines[i].startsWith('@@')) {
+            const text = lines[i].substring(1);
+            const added = lines[i].startsWith('+');
+            const removed = lines[i].startsWith('-');
+
+            changes.push({ lineNumber, text, added, removed });
+            if (!removed) {
+              lineNumber++;
+            }
+          }
+
+          i--;
+        }
+      }
+    }
+
+    return changes;
+  }
+
+  public confirmResolve() {
+    const isConfirmed = confirm("Are you sure you want to perform this action?");
+    if (isConfirmed) {
+      console.log('whoop')
+    }
   }
 
   private brightenHexColor(hexColor: string, factor: number): string {

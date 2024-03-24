@@ -1,0 +1,66 @@
+<section>
+  <div *ngIf="(repoIssues$ | async) !== null; else loadingTemplate" class="container">
+    <table class="issue-table">
+      <thead>
+      <tr>
+        <th>Author</th>
+        <th>File Name</th>
+        <th>Commit Sha</th>
+        <th class="center">Complexity</th>
+        <th class="center">Comment Ratio</th>
+        <th class="center">Maintainability</th>
+        <th></th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of GetPaginationData((repoIssues$ | async))">
+          <td>{{row.author}}</td>
+          <td class="max-content">{{row.fileName}}</td>
+          <td>
+            <a [routerLink]="['/repository', repoOwner, repoName, 'commits', row.sha]">{{row.sha}}</a>
+          </td>
+          <td>
+            <div [ngClass]="row.gradeClass" class="center">
+              {{row.complexity}}
+            </div>
+          </td>
+          <td>
+            <div [ngClass]="row.commentGradeClass" class="center">
+              {{row.ltc_ratio ?? 'n/a'}}
+            </div>
+          </td>
+          <td>
+            <div [ngClass]="row.maintainabilityGradeClass" class="center">
+              {{row.maintain_index ?? 'n/a'}}
+            </div>
+          </td>
+          <td></td>
+          <td>
+            <ng-icon style="cursor:pointer;" name="heroTrash"></ng-icon>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="pagination-controls">
+      <button class="pagination-button" (click)="skipToStart()" [disabled]="currentPage === 1">
+        <ng-icon name="heroChevronDoubleLeft"></ng-icon>
+      </button>
+      <button class="pagination-button" (click)="previousPage()" [disabled]="currentPage === 1">
+        <ng-icon name="heroChevronLeft"></ng-icon>
+      </button>
+      <span>Page {{currentPage}} of {{getTotalPages()}}</span>
+      <button class="pagination-button" (click)="nextPage()" [disabled]="currentPage * itemsPerPage >= totalItems">
+        <ng-icon name="heroChevronRight"></ng-icon>
+      </button>
+      <button class="pagination-button" (click)="skipToEnd()" [disabled]="currentPage * itemsPerPage >= totalItems">
+        <ng-icon name="heroChevronDoubleRight"></ng-icon>
+      </button>
+    </div>
+  </div>
+</section>
+
+<ng-template #loadingTemplate>
+  <loading-spinner/>
+</ng-template>

@@ -21,15 +21,11 @@
       <ng-icon name="heroCodeBracket"></ng-icon>
       <h4>Commits</h4>
     </a>
-    <a *ngIf="hideLinksOnGithubPages() && hideLinks()">
-      <ng-icon name="heroBugAnt"></ng-icon>
-      <h4>Bugs</h4>
-    </a>
-    <a *ngIf="hideLinksOnGithubPages() && hideLinks()">
+    <a *ngIf="hideLinksOnGithubPages() && hideLinks()" routerLink="/repository/{{repoOwner}}/{{repoName}}/issues" routerLinkActive="active">
       <ng-icon name="heroShieldExclamation"></ng-icon>
       <h4>Issues</h4>
     </a>
-    <a *ngIf="hideLinksOnGithubPages() && hideLinks()">
+    <a *ngIf="hideLinksOnGithubPages() && hideLinks()" routerLink="/repository/{{repoOwner}}/{{repoName}}/reports" routerLinkActive="active">
       <ng-icon name="heroDocumentText"></ng-icon>
       <h4>Reports</h4>
     </a>

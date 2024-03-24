@@ -9,17 +9,21 @@ import {
 import {mergeMap, Observable, throwError} from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import {AuthService} from "../services/auth-service";
+import {Router} from "@angular/router";
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
       catchError((error) => {
-        console.log(error)
         if (error instanceof HttpErrorResponse && error.status === 401 && error.error.detail === 'Token has Expired') {
           return this.handleTokenExpiration(request, next);
+        }
+
+        if (error instanceof HttpErrorResponse && error.status === 404) {
+          this.router.navigateByUrl('/404').then()
         }
 
         return throwError(error);

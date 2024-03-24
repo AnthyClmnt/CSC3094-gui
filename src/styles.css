@@ -19,7 +19,13 @@ button {
   transition: all .25s ease;
 }
 
-button:hover {
+a {
+  text-decoration: none;
+  cursor: pointer;
+  color: #6855E0;
+}
+
+button:hover:not(:disabled) {
   border-color: #6855E0;
   color: #6855E0;
 }
@@ -28,3 +34,70 @@ button:hover {
     transform: rotate(180deg);
 }
 
+.b-danger {
+  border-color: #af4d53;
+  color: #af4d53;
+  background-color: #f3dfe0;
+  font-weight: 600;
+}
+
+.b-danger:hover {
+  border-color: #A9363C;
+  color: white;
+  background-color: #af4d53;
+  font-weight: 600;
+}
+
+table ng-icon {
+  font-size: 1.25rem;
+  color: #A9363C;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+thead tr {
+  text-align: left;
+}
+
+th, td {
+  padding: 12px 1em;
+}
+
+tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+thead tr {
+  border-bottom: 1px solid lightgray;
+}
+
+tbody tr {
+  transition: all .2s ease;
+  cursor: pointer;
+}
+
+tbody td {
+  height: 60px;
+}
+
+tbody tr:hover {
+  background-color: whitesmoke;
+}
+
+.max-content {
+  max-width: 40ch;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+table h1 {
+  font-weight: 400;
+}
+
+.center {
+  text-align: center;
+  height: 100%;
+}
