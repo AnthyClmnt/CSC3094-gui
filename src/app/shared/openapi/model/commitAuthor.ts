@@ -12,7 +12,7 @@
 
 
 export interface CommitAuthor { 
-    name: string;
-    date: string;
+    name: any | null;
+    date: any | null;
 }
 

@@ -9,15 +9,14 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { CommitFiles } from './commitFiles';
 import { Commit } from './commit';
 import { CommitStats } from './commitStats';
 
 
 export interface CommitDetails { 
-    sha: string;
+    sha: any | null;
     commit: Commit;
     stats: CommitStats;
-    files: Array<CommitFiles>;
+    files: any | null;
 }
 

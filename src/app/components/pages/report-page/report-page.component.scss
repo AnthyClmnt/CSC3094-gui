@@ -1,3 +1,111 @@
 section {
   margin: 2em;
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+}
+
+.contributors-container {
+  display: inline-flex;
+  width: 100%;
+  gap: 1em;
+  padding: 1em;
+  background-color: white;
+  border-radius: 15px;
+  border: 1px solid lightgray;
+
+  .selected {
+    border-color: #6855E0;
+    color: #6855E0;
+  }
+
+  .contributor {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+    align-items: center;
+    padding: 1em 2em;
+    border-radius: 10px;
+    background-color: whitesmoke;
+
+    img {
+      height: 50px;
+      object-fit: cover;
+      border-radius: 999px;
+    }
+
+    p {
+      font-size: 1.1em;
+    }
+  }
+}
+
+.report-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1em;
+}
+
+.heatmap-container {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: 1fr;
+  width: fit-content;
+  background-color: white;
+  border-radius: 15px;
+  border: 1px solid lightgray;
+  padding: 1em;
+  height: fit-content;
+}
+
+.heatmap-months {
+  display: inline-flex;
+  justify-content: space-between;
+  grid-column: 1 / -1;
+
+  p:first-of-type {
+    margin-left: 30px;
+  }
+}
+
+.heatmap-days {
+  padding-right: .5em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.heatmap {
+  display: flex;
+  gap: .25em;
+}
+
+.heatmap-week {
+  display: flex;
+  flex-direction: column;
+  gap: .25em;
+}
+
+.heatmap-square {
+  display: flex;
+  width: 20px;
+  height: 20px;
+  border-radius: 5px;
+  border: 1px solid #c0bae7;
+  user-select: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.chart {
+  width: fit-content;
+  background-color: white;
+  border-radius: 15px;
+  border: 1px solid lightgray;
+  padding: 1em;
+  font-weight: 400 !important;
+
+  text {
+    font-weight: 400 !important;
+  }
 }

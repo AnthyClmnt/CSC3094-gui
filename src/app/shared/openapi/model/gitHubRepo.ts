@@ -9,17 +9,20 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { RepoOwner } from './repoOwner';
+import { Description } from './description';
+import { Language } from './language';
+import { Languagecolour } from './languagecolour';
+import { RepoContributor } from './repoContributor';
 
 
 export interface GitHubRepo { 
-    repoName: string;
-    owner: RepoOwner;
-    commitsUrl: string;
-    visibility: string;
-    description?: string | null;
-    updatedAt: string;
-    language?: string | null;
-    languageColour?: string | null;
+    repoName: any | null;
+    owner: RepoContributor;
+    commitsUrl: any | null;
+    visibility: any | null;
+    description?: Description;
+    updatedAt: any | null;
+    language?: Language;
+    languageColour?: Languagecolour;
 }
 

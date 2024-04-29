@@ -47,7 +47,7 @@
 
       <div class="accordion-content">
         <pre class="pre" *ngIf="file.patch">
-          <div *ngFor="let line of parsePatch(file.patch)" class="code-line" [ngClass]="{ 'added': line.added, 'removed': line.removed }">
+          <div *ngFor="let line of parsePatch(file.patch.toString())" class="code-line" [ngClass]="{ 'added': line.added, 'removed': line.removed }">
             <span class="line-number">{{ line.lineNumber !== null ? line.lineNumber : '' }}</span>
             <span class="line-text">{{ line.text }}</span>
           </div>

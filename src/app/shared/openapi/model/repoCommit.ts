@@ -13,7 +13,7 @@ import { Commit } from './commit';
 
 
 export interface RepoCommit { 
-    sha: string;
+    sha: any | null;
     commit: Commit;
 }
 

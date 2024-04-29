@@ -14,6 +14,6 @@ import { CommitAuthor } from './commitAuthor';
 
 export interface Commit { 
     author: CommitAuthor;
-    message: string;
+    message: any | null;
 }
 

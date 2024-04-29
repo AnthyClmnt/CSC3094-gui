@@ -12,8 +12,8 @@
 
 
 export interface CommitStats { 
-    total: number;
-    additions: number;
-    deletions: number;
+    total: any | null;
+    additions: any | null;
+    deletions: any | null;
 }
 

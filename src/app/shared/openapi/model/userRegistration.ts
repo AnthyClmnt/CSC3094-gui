@@ -12,8 +12,8 @@
 
 
 export interface UserRegistration { 
-    email: string;
-    password: string;
-    forename: string;
+    email: any | null;
+    password: any | null;
+    forename: any | null;
 }
 

@@ -1,7 +1,7 @@
 import {Component, OnInit, QueryList, ViewChildren} from "@angular/core";
 import {ActivatedRoute} from "@angular/router";
 import {UserService} from "../../../services/user-service";
-import {CommitDetails, CommitFiles} from "../../../shared/openapi";
+import {CommitDetails, CommitFile} from "../../../shared/openapi";
 import {Observable, switchMap} from "rxjs";
 import {AccordionComponent} from "../../shared/accordion-component/accordion.component";
 
@@ -13,7 +13,7 @@ import {AccordionComponent} from "../../shared/accordion-component/accordion.com
 export class CodeFileChangesComponent implements OnInit {
   @ViewChildren(AccordionComponent) accordions!: QueryList<AccordionComponent>;
   commitData$!: Observable<CommitDetails>;
-  filteredFiles: CommitFiles[] = [];
+  filteredFiles: CommitFile[] = [];
 
   public allClosed = false
   constructor(private route: ActivatedRoute, private userService: UserService) {}
@@ -79,7 +79,7 @@ export class CodeFileChangesComponent implements OnInit {
     return result.length > 5 ? result.slice(0, 5) : result
   }
 
-  onSearchResult(result: CommitFiles[]): void {
+  onSearchResult(result: CommitFile[]): void {
     this.filteredFiles = result
   }
 

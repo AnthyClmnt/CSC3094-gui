@@ -12,9 +12,8 @@
 
 
 export interface User { 
-    id: number;
-    email: string;
-    forename: string;
-    githubConnected: boolean;
+    id: any | null;
+    email: any | null;
+    forename: any | null;
 }
 

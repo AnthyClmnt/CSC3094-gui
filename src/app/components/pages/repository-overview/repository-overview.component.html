@@ -10,7 +10,7 @@
 
     <div class="sync-container">
       <ng-icon class="error-icon" *ngIf="showUpdatePush(overview.lastAnalysed)" name="heroExclamationTriangle"></ng-icon>
-      <p>Last Analysed: <b>{{overview.lastAnalysed ? (overview.lastAnalysed | date : 'dd MMM YYYY, HH:mm') : 'Never'}}</b></p>
+      <p>Last Analysed: <b>{{overview.lastAnalysed ? (overview.lastAnalysed | formatDate) : 'Never'}}</b></p>
       <button (click)="syncRepoClick()">
         Sync
         <ng-icon name="heroArrowPath"></ng-icon>
@@ -176,7 +176,7 @@
         <div [ngClass]="sideBarData.commentGradeClass">{{sideBarData.commentGrade}}</div>
       </div>
 
-      <div class="container">
+      <div class="container" *ngIf="sideBarData.maintain_index != null">
         <h4>Maintainability</h4>
         <div [ngClass]="sideBarData.maintainabilityGradeClass">{{sideBarData.maintainabilityGrade}}</div>
       </div>

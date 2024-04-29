@@ -11,8 +11,8 @@
  */
 
 
-export interface UserLogin { 
-    email: any | null;
-    password: any | null;
+export interface RepoContributor { 
+    avatarUrl: any | null;
+    name: any | null;
 }
 

@@ -1,3 +1,34 @@
 <section>
-  <p>report-page under construction</p>
+  <div class="contributors-container" *ngIf="(repoContributors$ | async) as contributors; else loadingTemplate">
+    <button class="contributor"
+            *ngFor="let contributor of contributors; let i = index" [class.selected]="selectedContributorIndex === i"
+            (click)="selectContributor(i, contributor)"
+    >
+      <p>{{contributor}}</p>
+    </button>
+  </div>
+
+  <div class="report-grid" *ngIf="(repoContributorData$ | async)">
+    <div class="heatmap-container" *ngIf="(repoContributorData$ | async) as contributorData">
+      <div class="heatmap-months">
+        <p *ngFor="let month of months">{{month}}</p>
+      </div>
+      <div class="heatmap-days">
+        <p *ngFor="let day of days">{{day}}</p>
+      </div>
+      <div class="heatmap">
+        <div class="heatmap-week" *ngFor="let week of generateHeatmapData(contributorData[0]); let i = index">
+          <div class="heatmap-square" [style.background-color]="getColor(count)" *ngFor="let count of week"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chart" [chart]="complexityChart"></div>
+    <div class="chart" [chart]="maintainChart"></div>
+    <div class="chart" [chart]="ltcChart"></div>
+  </div>
 </section>
+
+<ng-template #loadingTemplate>
+  <loading-spinner/>
+</ng-template>

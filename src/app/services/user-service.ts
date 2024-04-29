@@ -2,7 +2,7 @@ import {Injectable} from "@angular/core";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable, of, shareReplay, take} from "rxjs";
 import {AuthService, CachedResponse} from "./auth-service";
-import {CommitDetails, CommitFiles, GitHubRepo, RepoCommit, User} from "../shared/openapi";
+import {CommitDetails, CommitFile, GitHubRepo, RepoCommit, User} from "../shared/openapi";
 import {tap} from "rxjs/operators";
 import {API_URL} from "../shared/constants";
 
@@ -93,13 +93,13 @@ export class UserService {
     return this.http.get<CommitDetails>(`${this.apiUrl}/github/commit/changes?repoOwner=${params.repoOwner}&repoName=${params.repoName}&sha=${params.sha}`, {headers})
   }
 
-  public GetFileDetails(params: {repoOwner : string, repoName : string, sha: string, fileName: string}): Observable<CommitFiles> {
+  public GetFileDetails(params: {repoOwner : string, repoName : string, sha: string, fileName: string}): Observable<CommitFile> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${this.authService.getToken()}`,
     });
 
-    return this.http.get<CommitFiles>(`${this.apiUrl}/github/commit/changes/file?repoOwner=${params.repoOwner}&repoName=${params.repoName}&filename=${params.fileName}&sha=${params.sha}`, {headers})
+    return this.http.get<CommitFile>(`${this.apiUrl}/github/commit/changes/file?repoOwner=${params.repoOwner}&repoName=${params.repoName}&filename=${params.fileName}&sha=${params.sha}`, {headers})
   }
 
   public getRepoIssues(params: {repoOwner : string, repoName : string}): Observable<any> {
@@ -109,5 +109,23 @@ export class UserService {
     });
 
     return this.http.get<any[]>(`${this.apiUrl}/github/issues?repoOwner=${params.repoOwner}&repoName=${params.repoName}`, {headers})
+  }
+
+  public getRepoContributors(params: {repoOwner : string, repoName : string}): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.authService.getToken()}`,
+    });
+
+    return this.http.get<any[]>(`${this.apiUrl}/github/repository-contributors?repoOwner=${params.repoOwner}&repoName=${params.repoName}`, {headers})
+  }
+
+  public getRepoContributorData(params: {repoOwner : string, repoName : string, contributor: string}): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.authService.getToken()}`,
+    });
+
+    return this.http.get<any[]>(`${this.apiUrl}/github/repository-contributor/report?repoOwner=${params.repoOwner}&repoName=${params.repoName}&contributor=${params.contributor}`, {headers})
   }
 }

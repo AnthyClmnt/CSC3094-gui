@@ -2,8 +2,7 @@ import {Component, OnInit} from "@angular/core";
 import {ActivatedRoute, Router} from "@angular/router";
 import {UserService} from "../../../services/user-service";
 import {Observable, of, switchMap} from "rxjs";
-import {ChartOptions, ChartType} from "chart.js";
-import {map, tap} from "rxjs/operators";
+import {map} from "rxjs/operators";
 import {SidebarService} from "../../../services/sidebar.service";
 
 @Component({
@@ -17,17 +16,6 @@ export class RepositoryOverviewComponent implements OnInit {
   public loadingText = "Loading Overview...";
   public repoOwner: string = '';
   public repoName: string = '';
-  public pieChartOptions: ChartOptions<'pie'> = {
-    responsive: false,
-  };
-  public chartLegend = false;
-  public pieChartPlugins = [];
-
-  public barChartOptions: any = {
-    scaleShowVerticalLines: true,
-    responsive: false,
-  };
-  public barChartType: ChartType = "bar";
   public sideBarData: any;
   constructor(private route: ActivatedRoute, private userService: UserService, private router: Router, private sidebarService: SidebarService) {}
 
@@ -66,7 +54,7 @@ export class RepositoryOverviewComponent implements OnInit {
     this.repoOverview$ = this.userService.syncRepoAnalysis({repoOwner: this.repoOwner, repoName: this.repoName})
       .pipe(
         map((response) => {
-          console.log(response[1]) // todo notification service to show how many commits were analysed
+          console.log(response[1])
           return response[0]
         })
       )

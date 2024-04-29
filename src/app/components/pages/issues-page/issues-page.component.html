@@ -3,6 +3,7 @@
     <table class="issue-table">
       <thead>
       <tr>
+        <th>Date</th>
         <th>Author</th>
         <th>File Name</th>
         <th>Commit Sha</th>
@@ -15,6 +16,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let row of GetPaginationData((repoIssues$ | async))">
+          <td>{{row.commit_date | formatDate }}</td>
           <td>{{row.author}}</td>
           <td class="max-content">{{row.fileName}}</td>
           <td>

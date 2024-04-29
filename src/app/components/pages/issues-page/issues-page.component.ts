@@ -31,10 +31,12 @@ export class IssuesPageComponent implements OnInit {
       )
   }
 
-  public GetPaginationData(data: any) {
+  public GetPaginationData(data: any[]) {
+    const sortedData = data?.sort((a, b) => new Date(b.commit_date).getTime() - new Date(a.commit_date).getTime());
+
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     this.totalItems = data?.length ?? 0;
-    return data?.slice(startIndex, startIndex + this.itemsPerPage);
+    return sortedData?.slice(startIndex, startIndex + this.itemsPerPage);
   }
 
   public nextPage(): void {

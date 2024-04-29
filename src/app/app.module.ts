@@ -29,13 +29,15 @@ import {UnAuthGuard} from "./shared/unAuth.guard";
 import {UnGithubGuard} from "./shared/unGithub.guard";
 import {NotFoundPageComponent} from "./components/pages/not-found-page/not-found-page.component";
 import {RepositoryOverviewComponent} from "./components/pages/repository-overview/repository-overview.component";
-import { NgChartsModule } from 'ng2-charts';
 import { SettingsPageComponent } from './components/pages/settings-page/settings-page.component';
 import {SidebarComponent} from "./components/shared/sidebar-component/sidebar.component";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {SidebarService} from "./services/sidebar.service";
 import { IssuesPageComponent } from './components/pages/issues-page/issues-page.component';
 import { ReportPageComponent } from './components/pages/report-page/report-page.component';
+import {FormatDatePipe} from "./shared/pipes/date.pipe";
+import {TooltipDirective} from "./shared/directives/tooltip.directive";
+import {ChartModule} from "angular-highcharts";
 
 @NgModule({
   declarations: [
@@ -57,14 +59,16 @@ import { ReportPageComponent } from './components/pages/report-page/report-page.
     SettingsPageComponent,
     SidebarComponent,
     IssuesPageComponent,
-    ReportPageComponent
+    ReportPageComponent,
+    FormatDatePipe,
+    TooltipDirective
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
-    NgChartsModule,
+    ChartModule,
     FormsModule,
     ReactiveFormsModule,
     NgIconsModule.withIcons({ heroCog6Tooth, heroBugAnt, heroChartBar, heroShieldExclamation, heroSquares2x2, heroArrowLeftOnRectangle, heroArrowRight, heroCodeBracket, heroMagnifyingGlass, heroFaceFrown, heroDocument, heroChevronDown, heroChevronUp, heroArrowLeft, heroArrowPath, heroExclamationTriangle, heroDocumentText, heroTrash, heroEye, heroChevronLeft, heroChevronRight, heroChevronDoubleLeft, heroChevronDoubleRight}),

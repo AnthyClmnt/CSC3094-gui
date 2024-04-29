@@ -9,10 +9,15 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { Patch } from './patch';
 
 
-export interface UserLogin { 
-    email: any | null;
-    password: any | null;
+export interface CommitFile { 
+    filename: any | null;
+    status: any | null;
+    additions: any | null;
+    deletions: any | null;
+    changes: any | null;
+    patch?: Patch;
 }
 

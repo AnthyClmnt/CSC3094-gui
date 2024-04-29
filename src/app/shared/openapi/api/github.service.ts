@@ -21,13 +21,15 @@ import { Observable }                                        from 'rxjs';
 // @ts-ignore
 import { CommitDetails } from '../model/commitDetails';
 // @ts-ignore
+import { CommitFile } from '../model/commitFile';
+// @ts-ignore
 import { GitHubCode } from '../model/gitHubCode';
 // @ts-ignore
 import { GitHubRepo } from '../model/gitHubRepo';
 // @ts-ignore
 import { HTTPValidationError } from '../model/hTTPValidationError';
 // @ts-ignore
-import { RepoCommit } from '../model/repoCommit';
+import { Since } from '../model/since';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -175,6 +177,102 @@ export class GithubService {
     }
 
     /**
+     * Getcommitchangesfile
+     * @param sha 
+     * @param repoOwner 
+     * @param repoName 
+     * @param filename 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getCommitChangesFileGithubCommitChangesFileGet(sha: any, repoOwner: any, repoName: any, filename: any, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<CommitFile>;
+    public getCommitChangesFileGithubCommitChangesFileGet(sha: any, repoOwner: any, repoName: any, filename: any, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<CommitFile>>;
+    public getCommitChangesFileGithubCommitChangesFileGet(sha: any, repoOwner: any, repoName: any, filename: any, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<CommitFile>>;
+    public getCommitChangesFileGithubCommitChangesFileGet(sha: any, repoOwner: any, repoName: any, filename: any, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+        if (sha === null || sha === undefined) {
+            throw new Error('Required parameter sha was null or undefined when calling getCommitChangesFileGithubCommitChangesFileGet.');
+        }
+        if (repoOwner === null || repoOwner === undefined) {
+            throw new Error('Required parameter repoOwner was null or undefined when calling getCommitChangesFileGithubCommitChangesFileGet.');
+        }
+        if (repoName === null || repoName === undefined) {
+            throw new Error('Required parameter repoName was null or undefined when calling getCommitChangesFileGithubCommitChangesFileGet.');
+        }
+        if (filename === null || filename === undefined) {
+            throw new Error('Required parameter filename was null or undefined when calling getCommitChangesFileGithubCommitChangesFileGet.');
+        }
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        if (sha !== undefined && sha !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>sha, 'sha');
+        }
+        if (repoOwner !== undefined && repoOwner !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>repoOwner, 'repoOwner');
+        }
+        if (repoName !== undefined && repoName !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>repoName, 'repoName');
+        }
+        if (filename !== undefined && filename !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>filename, 'filename');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        let localVarCredential: string | undefined;
+        // authentication (HTTPBearer) required
+        localVarCredential = this.configuration.lookupCredential('HTTPBearer');
+        if (localVarCredential) {
+            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
+        }
+
+        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (localVarHttpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/github/commit/changes/file`;
+        return this.httpClient.request<CommitFile>('get', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                params: localVarQueryParameters,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
      * Getcommitchanges
      * @param sha 
      * @param repoOwner 
@@ -182,10 +280,10 @@ export class GithubService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getCommitChangesGithubCommitChangesGet(sha: string, repoOwner: string, repoName: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<CommitDetails>;
-    public getCommitChangesGithubCommitChangesGet(sha: string, repoOwner: string, repoName: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<CommitDetails>>;
-    public getCommitChangesGithubCommitChangesGet(sha: string, repoOwner: string, repoName: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<CommitDetails>>;
-    public getCommitChangesGithubCommitChangesGet(sha: string, repoOwner: string, repoName: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+    public getCommitChangesGithubCommitChangesGet(sha: any, repoOwner: any, repoName: any, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<CommitDetails>;
+    public getCommitChangesGithubCommitChangesGet(sha: any, repoOwner: any, repoName: any, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<CommitDetails>>;
+    public getCommitChangesGithubCommitChangesGet(sha: any, repoOwner: any, repoName: any, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<CommitDetails>>;
+    public getCommitChangesGithubCommitChangesGet(sha: any, repoOwner: any, repoName: any, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
         if (sha === null || sha === undefined) {
             throw new Error('Required parameter sha was null or undefined when calling getCommitChangesGithubCommitChangesGet.');
         }
@@ -266,18 +364,103 @@ export class GithubService {
      * Getcommits
      * @param repoOwner 
      * @param repoName 
+     * @param since 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getCommitsGithubCommitsGet(repoOwner: string, repoName: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<Array<RepoCommit>>;
-    public getCommitsGithubCommitsGet(repoOwner: string, repoName: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<Array<RepoCommit>>>;
-    public getCommitsGithubCommitsGet(repoOwner: string, repoName: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<Array<RepoCommit>>>;
-    public getCommitsGithubCommitsGet(repoOwner: string, repoName: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+    public getCommitsGithubCommitsGet(repoOwner: any, repoName: any, since?: Since, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any>;
+    public getCommitsGithubCommitsGet(repoOwner: any, repoName: any, since?: Since, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<any>>;
+    public getCommitsGithubCommitsGet(repoOwner: any, repoName: any, since?: Since, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<any>>;
+    public getCommitsGithubCommitsGet(repoOwner: any, repoName: any, since?: Since, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
         if (repoOwner === null || repoOwner === undefined) {
             throw new Error('Required parameter repoOwner was null or undefined when calling getCommitsGithubCommitsGet.');
         }
         if (repoName === null || repoName === undefined) {
             throw new Error('Required parameter repoName was null or undefined when calling getCommitsGithubCommitsGet.');
+        }
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        if (repoOwner !== undefined && repoOwner !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>repoOwner, 'repoOwner');
+        }
+        if (repoName !== undefined && repoName !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>repoName, 'repoName');
+        }
+        if (since !== undefined && since !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>since, 'since');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        let localVarCredential: string | undefined;
+        // authentication (HTTPBearer) required
+        localVarCredential = this.configuration.lookupCredential('HTTPBearer');
+        if (localVarCredential) {
+            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
+        }
+
+        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (localVarHttpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/github/commits`;
+        return this.httpClient.request<any>('get', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                params: localVarQueryParameters,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Getissues
+     * @param repoOwner 
+     * @param repoName 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getIssuesGithubIssuesGet(repoOwner: any, repoName: any, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any>;
+    public getIssuesGithubIssuesGet(repoOwner: any, repoName: any, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<any>>;
+    public getIssuesGithubIssuesGet(repoOwner: any, repoName: any, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<any>>;
+    public getIssuesGithubIssuesGet(repoOwner: any, repoName: any, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+        if (repoOwner === null || repoOwner === undefined) {
+            throw new Error('Required parameter repoOwner was null or undefined when calling getIssuesGithubIssuesGet.');
+        }
+        if (repoName === null || repoName === undefined) {
+            throw new Error('Required parameter repoName was null or undefined when calling getIssuesGithubIssuesGet.');
         }
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
@@ -328,8 +511,88 @@ export class GithubService {
             }
         }
 
-        let localVarPath = `/github/commits`;
-        return this.httpClient.request<Array<RepoCommit>>('get', `${this.configuration.basePath}${localVarPath}`,
+        let localVarPath = `/github/issues`;
+        return this.httpClient.request<any>('get', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                params: localVarQueryParameters,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Getrepooverview
+     * @param repoOwner 
+     * @param repoName 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getRepoOverviewGithubRepoOverviewGet(repoOwner: string, repoName: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any>;
+    public getRepoOverviewGithubRepoOverviewGet(repoOwner: string, repoName: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<any>>;
+    public getRepoOverviewGithubRepoOverviewGet(repoOwner: string, repoName: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<any>>;
+    public getRepoOverviewGithubRepoOverviewGet(repoOwner: string, repoName: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+        if (repoOwner === null || repoOwner === undefined) {
+            throw new Error('Required parameter repoOwner was null or undefined when calling getRepoOverviewGithubRepoOverviewGet.');
+        }
+        if (repoName === null || repoName === undefined) {
+            throw new Error('Required parameter repoName was null or undefined when calling getRepoOverviewGithubRepoOverviewGet.');
+        }
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        if (repoOwner !== undefined && repoOwner !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>repoOwner, 'repoOwner');
+        }
+        if (repoName !== undefined && repoName !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>repoName, 'repoName');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        let localVarCredential: string | undefined;
+        // authentication (HTTPBearer) required
+        localVarCredential = this.configuration.lookupCredential('HTTPBearer');
+        if (localVarCredential) {
+            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
+        }
+
+        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (localVarHttpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/github/repo-overview`;
+        return this.httpClient.request<any>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
@@ -394,6 +657,315 @@ export class GithubService {
         return this.httpClient.request<Array<GitHubRepo>>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Get Repository Contributor Report
+     * @param repoOwner 
+     * @param repoName 
+     * @param contributor 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getRepositoryContributorReportGithubRepositoryContributorReportGet(repoOwner: any, repoName: any, contributor: any, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any>;
+    public getRepositoryContributorReportGithubRepositoryContributorReportGet(repoOwner: any, repoName: any, contributor: any, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<any>>;
+    public getRepositoryContributorReportGithubRepositoryContributorReportGet(repoOwner: any, repoName: any, contributor: any, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<any>>;
+    public getRepositoryContributorReportGithubRepositoryContributorReportGet(repoOwner: any, repoName: any, contributor: any, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+        if (repoOwner === null || repoOwner === undefined) {
+            throw new Error('Required parameter repoOwner was null or undefined when calling getRepositoryContributorReportGithubRepositoryContributorReportGet.');
+        }
+        if (repoName === null || repoName === undefined) {
+            throw new Error('Required parameter repoName was null or undefined when calling getRepositoryContributorReportGithubRepositoryContributorReportGet.');
+        }
+        if (contributor === null || contributor === undefined) {
+            throw new Error('Required parameter contributor was null or undefined when calling getRepositoryContributorReportGithubRepositoryContributorReportGet.');
+        }
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        if (repoOwner !== undefined && repoOwner !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>repoOwner, 'repoOwner');
+        }
+        if (repoName !== undefined && repoName !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>repoName, 'repoName');
+        }
+        if (contributor !== undefined && contributor !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>contributor, 'contributor');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        let localVarCredential: string | undefined;
+        // authentication (HTTPBearer) required
+        localVarCredential = this.configuration.lookupCredential('HTTPBearer');
+        if (localVarCredential) {
+            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
+        }
+
+        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (localVarHttpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/github/repository-contributor/report`;
+        return this.httpClient.request<any>('get', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                params: localVarQueryParameters,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Get Repository Contributors
+     * @param repoOwner 
+     * @param repoName 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getRepositoryContributorsGithubRepositoryContributorsGet(repoOwner: any, repoName: any, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any>;
+    public getRepositoryContributorsGithubRepositoryContributorsGet(repoOwner: any, repoName: any, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<any>>;
+    public getRepositoryContributorsGithubRepositoryContributorsGet(repoOwner: any, repoName: any, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<any>>;
+    public getRepositoryContributorsGithubRepositoryContributorsGet(repoOwner: any, repoName: any, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+        if (repoOwner === null || repoOwner === undefined) {
+            throw new Error('Required parameter repoOwner was null or undefined when calling getRepositoryContributorsGithubRepositoryContributorsGet.');
+        }
+        if (repoName === null || repoName === undefined) {
+            throw new Error('Required parameter repoName was null or undefined when calling getRepositoryContributorsGithubRepositoryContributorsGet.');
+        }
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        if (repoOwner !== undefined && repoOwner !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>repoOwner, 'repoOwner');
+        }
+        if (repoName !== undefined && repoName !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>repoName, 'repoName');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        let localVarCredential: string | undefined;
+        // authentication (HTTPBearer) required
+        localVarCredential = this.configuration.lookupCredential('HTTPBearer');
+        if (localVarCredential) {
+            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
+        }
+
+        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (localVarHttpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/github/repository-contributors`;
+        return this.httpClient.request<any>('get', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                params: localVarQueryParameters,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Removefileissue
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public removeFileIssueGithubAnalysisRemoveIssuePatch(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any>;
+    public removeFileIssueGithubAnalysisRemoveIssuePatch(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<any>>;
+    public removeFileIssueGithubAnalysisRemoveIssuePatch(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<any>>;
+    public removeFileIssueGithubAnalysisRemoveIssuePatch(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+
+        let localVarHeaders = this.defaultHeaders;
+
+        let localVarCredential: string | undefined;
+        // authentication (HTTPBearer) required
+        localVarCredential = this.configuration.lookupCredential('HTTPBearer');
+        if (localVarCredential) {
+            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
+        }
+
+        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (localVarHttpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/github/analysis/remove-issue`;
+        return this.httpClient.request<any>('patch', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Updaterepo
+     * @param repoOwner 
+     * @param repoName 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public updateRepoGithubUpdateRepoGet(repoOwner: any, repoName: any, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any>;
+    public updateRepoGithubUpdateRepoGet(repoOwner: any, repoName: any, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<any>>;
+    public updateRepoGithubUpdateRepoGet(repoOwner: any, repoName: any, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<any>>;
+    public updateRepoGithubUpdateRepoGet(repoOwner: any, repoName: any, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+        if (repoOwner === null || repoOwner === undefined) {
+            throw new Error('Required parameter repoOwner was null or undefined when calling updateRepoGithubUpdateRepoGet.');
+        }
+        if (repoName === null || repoName === undefined) {
+            throw new Error('Required parameter repoName was null or undefined when calling updateRepoGithubUpdateRepoGet.');
+        }
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        if (repoOwner !== undefined && repoOwner !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>repoOwner, 'repoOwner');
+        }
+        if (repoName !== undefined && repoName !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>repoName, 'repoName');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        let localVarCredential: string | undefined;
+        // authentication (HTTPBearer) required
+        localVarCredential = this.configuration.lookupCredential('HTTPBearer');
+        if (localVarCredential) {
+            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
+        }
+
+        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (localVarHttpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/github/update-repo`;
+        return this.httpClient.request<any>('get', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,

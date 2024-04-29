@@ -12,6 +12,6 @@
 
 
 export interface GitHubCode { 
-    code: string;
+    code: any | null;
 }
 
