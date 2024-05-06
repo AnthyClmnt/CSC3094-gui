@@ -59,7 +59,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let row of overview.analysis.slice(0, 5)" (click)="test(row)">
+        <tr *ngFor="let row of overview.analysis.slice(0, 5)" (click)="getSideBarData(row)">
           <td class="center">
             <ng-icon *ngIf="row.grade === 'F'" name="heroExclamationTriangle"></ng-icon>
             <ng-icon *ngIf="row.grade !== 'F'"></ng-icon>
@@ -93,7 +93,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let row of getCommentRatioOrder(overview.analysis)" (click)="test(row)">
+        <tr *ngFor="let row of getCommentRatioOrder(overview.analysis)" (click)="getSideBarData(row)">
           <td class="center">
             <ng-icon *ngIf="row.commentGrade === 'F'" name="heroExclamationTriangle"></ng-icon>
             <ng-icon *ngIf="row.commentGrade !== 'F'"></ng-icon>
@@ -127,7 +127,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let row of getMaintainabilityOrder(overview.analysis)" (click)="test(row)">
+        <tr *ngFor="let row of getMaintainabilityOrder(overview.analysis)" (click)="getSideBarData(row)">
           <td class="center">
             <ng-icon *ngIf="row.maintainabilityGrade === 'F'" name="heroExclamationTriangle"></ng-icon>
             <ng-icon *ngIf="row.maintainabilityGrade !== 'F'"></ng-icon>
@@ -181,10 +181,6 @@
         <div [ngClass]="sideBarData.maintainabilityGradeClass">{{sideBarData.maintainabilityGrade}}</div>
       </div>
     </section>
-
-    <div class="changes-box">
-      <button (click)="confirmResolve()" class="b-danger">resolve issue</button>
-    </div>
   </div>
 
   <div style="height: 100%; overflow-y: auto;">

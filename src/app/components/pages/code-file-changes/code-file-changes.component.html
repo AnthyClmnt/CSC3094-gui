@@ -58,6 +58,11 @@
         </div>
       </div>
     </accordion>
+
+    <div class="no-results" *ngIf="filteredFiles.length == 0">
+      <ng-icon name="heroFaceFrown"></ng-icon>
+      <h1>No Results Found</h1>
+    </div>
   </div>
 </section>
 

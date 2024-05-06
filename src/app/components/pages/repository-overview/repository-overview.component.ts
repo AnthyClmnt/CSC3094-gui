@@ -70,10 +70,9 @@ export class RepositoryOverviewComponent implements OnInit {
     return newArray.sort((a: any, b: any) => b.maintain_index - a.maintain_index).slice(0, 5);
   }
 
-  public test(rowData: any) {
+  public getSideBarData(rowData: any) {
     this.userService.GetFileDetails({ repoOwner: this.repoOwner, repoName: this.repoName, sha: rowData.sha, fileName: rowData.fileName}).subscribe((x) => {
       this.sideBarData = {...rowData, ...x};
-      console.log('data', this.sideBarData)
     })
 
     this.sidebarService.toggleSidebar();
@@ -125,13 +124,6 @@ export class RepositoryOverviewComponent implements OnInit {
     }
 
     return changes;
-  }
-
-  public confirmResolve() {
-    const isConfirmed = confirm("Are you sure you want to perform this action?");
-    if (isConfirmed) {
-      console.log('whoop')
-    }
   }
 
   private brightenHexColor(hexColor: string, factor: number): string {

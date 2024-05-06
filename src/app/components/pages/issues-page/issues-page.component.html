@@ -3,42 +3,57 @@
     <table class="issue-table">
       <thead>
       <tr>
-        <th>Date</th>
+        <th class="m-none">Date</th>
         <th>Author</th>
-        <th>File Name</th>
-        <th>Commit Sha</th>
-        <th class="center">Complexity</th>
-        <th class="center">Comment Ratio</th>
-        <th class="center">Maintainability</th>
-        <th></th>
-        <th></th>
+        <th class="m-none">File Name</th>
+        <th class="m-none">Commit Sha</th>
+
+        <th class="center m-none">Complexity</th>
+        <th class="center m-only">CC</th>
+
+        <th class="center m-none">Comment Ratio</th>
+        <th class="center m-only">CR</th>
+
+        <th class="center m-none">Maintainability</th>
+        <th class="center m-only">MI</th>
+
+        <th class="m-none"></th>
+        <th class="m-none"></th>
       </tr>
       </thead>
       <tbody>
         <tr *ngFor="let row of GetPaginationData((repoIssues$ | async))">
-          <td>{{row.commit_date | formatDate }}</td>
+          <td class="m-none">{{row.commit_date | formatDate }}</td>
+
           <td>{{row.author}}</td>
-          <td class="max-content">{{row.fileName}}</td>
-          <td>
+
+          <td class="max-content m-none">{{row.fileName}}</td>
+
+          <td class="m-none">
             <a [routerLink]="['/repository', repoOwner, repoName, 'commits', row.sha]">{{row.sha}}</a>
           </td>
+
           <td>
             <div [ngClass]="row.gradeClass" class="center">
               {{row.complexity}}
             </div>
+
           </td>
+
           <td>
             <div [ngClass]="row.commentGradeClass" class="center">
               {{row.ltc_ratio ?? 'n/a'}}
             </div>
           </td>
+
           <td>
             <div [ngClass]="row.maintainabilityGradeClass" class="center">
               {{row.maintain_index ?? 'n/a'}}
             </div>
           </td>
-          <td></td>
-          <td>
+
+          <td class="m-none"></td>
+          <td class="m-none">
             <ng-icon style="cursor:pointer;" name="heroTrash"></ng-icon>
           </td>
         </tr>

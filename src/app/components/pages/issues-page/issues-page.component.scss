@@ -82,3 +82,31 @@ span {
   margin: 0 8px;
   font-size: .9rem;
 }
+
+.m-only {
+  display: none;
+}
+
+@media only screen and (max-width: 1536px) {
+  .m-none {
+    display: none;
+  }
+
+  .m-none > * {
+    display: none !important;
+  }
+}
+
+@media only screen and (max-width: 1536px) {
+  .m-only {
+    display: table-cell;
+  }
+}
+
+@media only screen and (max-width: 640px) {
+  section {
+    margin: 2em .5em
+  }
+}
+
+

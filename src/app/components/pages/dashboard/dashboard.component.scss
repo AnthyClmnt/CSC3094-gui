@@ -75,19 +75,3 @@ section {
     border-radius: 999px;
   }
 }
-
-.no-results {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 50vh;
-  gap: 1em;
-  align-items: center;
-  justify-content: center;
-  grid-column: 1/-1;
-
-  ng-icon {
-    color: #24292e;
-    font-size: 3em;
-  }
-}
