@@ -11,3 +11,5 @@ This project is the front-end application for my University dissertation. It is 
 ![Example screenshot](./src/assets/readme/issuesTable.png)
 
 ![Example screenshot](./src/assets/readme/report.png)
+
+The dissertation can be read here: [Dissertation PDF](./src/assets/readme/Anthony%20Clermont%20-Dissertation.pdf)
